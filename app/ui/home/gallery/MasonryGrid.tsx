@@ -34,15 +34,12 @@ export const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }
         >
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 h-full">
             {/* Photo Image */}
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden h-[200px]">
               <Image fill
                 src={photo.thumbnailUrl || photo.imageUrl}
                 alt={photo.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                style={{ 
-                  aspectRatio: photo.aspectRatio || 1,
-                  minHeight: '200px'
-                }}
+                className="  object-cover group-hover:scale-110 transition-transform duration-700"
+                
               />
               
               {/* Overlay */}

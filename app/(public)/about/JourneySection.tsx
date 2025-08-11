@@ -59,9 +59,9 @@ export const JourneySection: React.FC = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200">
+            <div className="relative aspect-[4/5]  rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200">
               <Image
-                src="/images/5.jpeg"
+                src="/images/3.jpeg"
                 alt="Educational Leader"
                 className="w-full h-full object-cover "
                 fill

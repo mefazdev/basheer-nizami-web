@@ -2,7 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Eye, Clock } from "lucide-react";
+import { Play,  Clock } from "lucide-react";
 import Image from "next/image";
 
 interface VideoItem {
@@ -107,16 +107,16 @@ export const FeaturedVideo: React.FC<FeaturedVideoProps> = ({
             <div className="flex items-center gap-6 mb-8">
               {video.views && (
                 <div className="flex items-center text-gray-400">
-                  <Eye className="w-4 h-4 mr-2" />
-                  <span className="text-sm">
+                  {/* <Eye className="w-4 h-4 mr-2" /> */}
+                  {/* <span className="text-sm">
                     {video.views.toLocaleString()} views
-                  </span>
+                  </span> */}
                 </div>
               )}
-              <div className="flex items-center text-gray-400">
+              {/* <div className="flex items-center text-gray-400">
                 <Clock className="w-4 h-4 mr-2" />
                 <span className="text-sm">{video.duration}</span>
-              </div>
+              </div> */}
             </div>
 
             {/* Tags */}

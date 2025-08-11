@@ -79,9 +79,9 @@ const AboutPage: React.FC = () => {
             </div> */}
 
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              About
+              {/* About */}
               <span className="block bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent">
-                My Journey
+                {/* My Journey */}      About
               </span>
             </h1>
 
