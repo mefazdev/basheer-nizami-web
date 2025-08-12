@@ -67,9 +67,9 @@ interface HeroCarouselProps {
     date: "2024-12-15",
   },
   newsTickerItems = [
-    "Breaking: New educational funding approved for 2024",
+    "Meeladunnabi celebrations announced",
     "Research shows 40% improvement in student outcomes",
-    "International conference on education leadership announced",
+    "Youth talk shows to be heled on next month",
     "Innovation in digital learning platforms continues to grow",
   ],
 }) => {

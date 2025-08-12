@@ -80,7 +80,7 @@ export const JourneySection: React.FC = () => {
               <p className="text-sm text-gray-700 italic mb-2">
                 &quot;Every hardship became a lesson. Every student, a responsibility. Every opportunity, a platform to serve.&quot;
               </p>
-              <div className="text-xs text-gray-600 font-semibold">— Personal Philosophy</div>
+              {/* <div className="text-xs text-gray-600 font-semibold">— Personal Philosophy</div> */}
             </motion.div>
           </motion.div>
 

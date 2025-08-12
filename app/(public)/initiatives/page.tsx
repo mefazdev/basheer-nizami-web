@@ -7,6 +7,8 @@ import { useRef } from 'react';
 // import { CampusPlan } from './CampusPlan';
 // import { YouthTalkShow } from './TalkShow';
 import { QuranCircle } from './QuranCircle';
+import { LeadershipCourse } from './LeadershipCourse';
+import { CampusPlan } from './CampusPlan';
 
   const Initiatives: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -115,8 +117,8 @@ import { QuranCircle } from './QuranCircle';
       </section>
 
       {/* Initiatives Sections */}
-      {/* <LeadershipCourse /> */}
-      {/* <CampusPlan  /> */}
+      <LeadershipCourse />
+      <CampusPlan  />
       {/* <YouthTalkShow  /> */}
       <QuranCircle  />
     </div>
