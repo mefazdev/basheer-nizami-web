@@ -31,7 +31,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [activeTab, setActiveTab] = useState<'contact' | 'services' | 'schedule'>('contact');
+  const [activeTab, ] = useState<'contact' | 'services' | 'schedule'>('contact');
   const [focusedField, setFocusedField] = useState<string>('');
 
   const handleInputChange = (
