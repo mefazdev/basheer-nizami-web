@@ -7,7 +7,8 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
  
- 
+//  kjdnjkdnjkandf
+// dssdsdd
  
 export const HomeFeaturedArticle =  ( ) => {
   // const categoryStyle =
