@@ -42,7 +42,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Badge } from "@/components/ui/Badge";
-import { useToast } from "@/components/ui/UseToast";
+// import { useToast } from "@/components/ui/UseToast";
 import { EditVideoModal } from "./edit-video-modal";
 import { DeleteVideoModal } from "./delete-video-modal";
 import { useVideosData } from "@/hooks/use-videos-data";
@@ -51,6 +51,7 @@ import { getYouTubeThumbnailUrl, getYouTubeWatchUrl } from "@/lib/youtube";
 import { formatDuration } from "@/lib/utils";
 
 import type { VideoWithCategory } from "@/lib/types";
+import { Switch } from "@/components/ui/Switch";
 
 interface VideosTableProps {
   searchParams: {
@@ -93,7 +94,7 @@ export function VideosTable({ searchParams }: VideosTableProps) {
   const { data: categories } = useVideoCategories();
 
   const updateSearchParams = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams );
+    const params = new URLSearchParams(searchParams);
     if (value && value !== "all") {
       params.set(key, value);
     } else {
@@ -145,7 +146,9 @@ export function VideosTable({ searchParams }: VideosTableProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Video Gallery</CardTitle>
+          <CardTitle onClick={() => console.log(data?.data)}>
+            Video Gallery
+          </CardTitle>
           <Button
             // variant="outline"
             className="border border-blue-600 text-blue-600"
@@ -340,6 +343,7 @@ export function VideosTable({ searchParams }: VideosTableProps) {
                       </Badge>
                     </TableCell>
                     <TableCell>
+                  
                       {video.location ? (
                         <span className="text-sm">{video.location}</span>
                       ) : (
@@ -388,6 +392,10 @@ export function VideosTable({ searchParams }: VideosTableProps) {
                           align="end"
                           className="bg-gray-800 text-white"
                         >
+                 
+ 
+
+
                           <DropdownMenuItem
                             onClick={() =>
                               window.open(

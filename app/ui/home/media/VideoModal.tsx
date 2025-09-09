@@ -1,6 +1,7 @@
 // components/media/VideoModal.tsx
 "use client";
 
+import { formatDuration } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Calendar, MapPin, Eye, Clock } from "lucide-react";
 import { useEffect } from "react";
@@ -13,7 +14,7 @@ interface VideoItem {
   category: string;
   date: string;
   venue?: string;
-  duration: string;
+  duration: number;
   views?: number;
   tags: string[];
 }
@@ -148,7 +149,8 @@ export const VideoModal: React.FC<VideoModalProps> = ({
                           <span>Duration</span>
                         </div>
                         <span className="text-white font-semibold">
-                          {video.duration}
+                          {/* {video.duration} */}
+                          {formatDuration(video?.duration)}
                         </span>
                       </div>
 

@@ -1,6 +1,7 @@
 // components/gallery/PhotoModal.tsx
 "use client";
 
+import { StorageUploader } from "@/lib/storage/upload";
 import { GalleryPhoto } from "@/lib/types/gallery";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -30,7 +31,13 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({
   onNavigate,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+const storageUploader = new StorageUploader();
+   
+   const getImageUrl = (photo:GalleryPhoto) => {
+          return photo?.file_path
+          ? storageUploader.getFileUrl("photos", photo?.file_path)
+          : null;
+      };
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -140,7 +147,7 @@ export const PhotoModal: React.FC<PhotoModalProps> = ({
               {/* Photo */}
               <div className="lg:col-span-2 relative bg-black flex items-center justify-center min-h-[70vh]">
                 <Image fill
-                  src={photo.imageUrl}
+                  src={getImageUrl(photo) || ""}
                   alt={photo.title}
                   className="max-w-full max-h-full object-contain"
                 />

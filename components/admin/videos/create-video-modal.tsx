@@ -22,12 +22,13 @@ import {
   TextFormField,
   NumberFormField,
   SelectFormField,
-  CustomFormField,
   TextareaFormField,
 } from "@/components/forms/Form-field";
 import { VideoSchema, type VideoInput } from "@/lib/validation/video";
 import { useVideoCategories } from "@/hooks/use-video-categories";
 import { extractYouTubeVideoId, fetchYouTubeMetadata } from "@/lib/youtube";
+import { Label } from "@/components/ui/Label";
+import { Switch } from "@/components/ui/Switch";
 
 interface CreateVideoModalProps {
   children: React.ReactNode;
@@ -52,6 +53,7 @@ export function CreateVideoModal({ children }: CreateVideoModalProps) {
       tags: [],
       description: "",
       published: true,
+      featured: false, // ✅ added
     },
   });
 
@@ -137,35 +139,35 @@ export function CreateVideoModal({ children }: CreateVideoModalProps) {
       }
     });
   };
-// A small controlled input for tags
-function TagsInput({
-  value,
-  onChange,
-}: {
-  value: string[];
-  onChange: (tags: string[]) => void;
-}) {
-  const [inputValue, setInputValue] = useState(
-    Array.isArray(value) ? value.join(", ") : ""
-  );
+  // A small controlled input for tags
+  function TagsInput({
+    value,
+    onChange,
+  }: {
+    value: string[];
+    onChange: (tags: string[]) => void;
+  }) {
+    const [inputValue, setInputValue] = useState(
+      Array.isArray(value) ? value.join(", ") : ""
+    );
 
-  return (
-    <input
-      type="text"
-      placeholder="Enter tags separated by commas"
-      className="block w-full rounded-md border border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-border-500"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      onBlur={() => {
-        const tags = inputValue
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter((tag) => tag.length > 0);
-        onChange(tags);
-      }}
-    />
-  );
-}
+    return (
+      <input
+        type="text"
+        placeholder="Enter tags separated by commas"
+        className="block w-full rounded-md border border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-border-500"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onBlur={() => {
+          const tags = inputValue
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter((tag) => tag.length > 0);
+          onChange(tags);
+        }}
+      />
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -238,39 +240,6 @@ function TagsInput({
                 placeholder="Where was this recorded?"
               />
 
-              {/* <CustomFormField
-                form={form}
-                name="recorded_at"
-                label="Recording Date"
-                type="custom"
-                render={({ value, onChange }) => (
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          'w-full justify-start text-left font-normal',
-                          !value && 'text-muted-foreground'
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {value ? format(new Date(value), 'PPP') : 'Pick recording date'}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={value ? new Date(value) : undefined}
-                        onSelect={(date) => 
-                          onChange(date ? date.toISOString() : '')
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                )}
-              /> */}
-
               <NumberFormField
                 form={form}
                 name="duration_seconds"
@@ -278,66 +247,15 @@ function TagsInput({
                 placeholder="Video duration in seconds"
               />
               <Controller
-  name="tags"
-  control={form.control}
-  render={({ field }) => (
-    <TagsInput value={field.value ?? []} onChange={field.onChange} />
-  )}
-/>
-
-              {/* <CustomFormField
-                form={form}
                 name="tags"
-                label="Tags"
-                type="custom"
-                render={({ value, onChange }) => {
-                  const [inputValue, setInputValue] = useState(() =>
-                    Array.isArray(value) ? value.join(", ") : ""
-                  );
-
-                  return (
-                    <input
-                      type="text"
-                      placeholder="Enter tags separated by commas"
-                      className="block w-full   focus:ring-border-500 rounded-md border border-gray-700   px-3 py-2 text-sm    focus:outline-none"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      onBlur={() => {
-                        // Only process tags when user finishes typing
-                        const tags = inputValue
-                          .split(",")
-                          .map((tag) => tag.trim())
-                          .filter((tag) => tag.length > 0);
-                        onChange(tags);
-                      }}
-                    />
-                  );
-                }}
-              /> */}
-
-              {/* <CustomFormField
-                form={form}
-                name="tags"
-                label="Tags"
-                type="custom"
-                render={({ value, onChange }) => (
-                    <TextFormField
-                      form={form}
-                      name="tags_input"
-                      label=""
-                      placeholder="Enter tags separated by commas"
-                      value={Array.isArray(value) ? value.join(', ') : ''}
-                      onChange={(e) => {
-                        const tags = e.target.value
-                          .split(',')
-                          .map(tag => tag.trim())
-                          .filter(tag => tag.length > 0)
-                        onChange(tags)
-                      }}
-                    />
-                   
+                control={form.control}
+                render={({ field }) => (
+                  <TagsInput
+                    value={field.value ?? []}
+                    onChange={field.onChange}
+                  />
                 )}
-              /> */}
+              />
 
               <TextareaFormField
                 form={form}
@@ -346,14 +264,23 @@ function TagsInput({
                 placeholder="Video description"
                 rows={3}
               />
-
-              {/* <CheckboxFormField
-                form={form}
-                name="published"
-                label="Published"
-              /> */}
             </div>
-
+            <div className="flex items-center justify-between rounded-md border border-gray-700 p-3">
+              <Label htmlFor="featured" className="text-sm text-gray-300">
+                Mark as Featured
+              </Label>
+              <Controller
+                name="featured"
+                control={form.control}
+                render={({ field }) => (
+                  <Switch
+                    id="featured"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type="button"

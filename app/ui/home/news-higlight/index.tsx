@@ -4,151 +4,30 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { NewsTicker } from "./NewsTicker";
-import { FeaturedNews } from "./FeaturedNews";
-// import { PublicationShowcase } from './PublicationShowcase';
-import { NewsGrid } from "./NewsGrid";
-import { Blogs } from "./Blogs";
+import { UpdatesGrid } from "@/app/(public)/updates/UpdateGrid";
+import { useHomepageContent } from "@/hooks/sanity/useHomepage";
+import { HomeFeaturedUpdate } from "./HomeFeaturedUpdate";
+import { UpdateItem } from "@/lib/types/updates";
+import Link from "next/link";
 
-interface NewsItem {
+type NewsTickers = {
   id: string;
-  title: string;
-  excerpt: string;
-  category:
-    | "media"
-    | "publication"
-    | "speaking"
-    | "award"
-    | "research"
-    | "announcement";
-  date: string;
-  image?: string;
-  source?: string;
-  link?: string;
-  featured?: boolean;
-  tags: string[];
-}
-
-interface Publication {
-  id: string;
-  title: string;
-  journal: string;
-  date: string;
-  coAuthors?: string[];
-  abstract: string;
-  link?: string;
-  citations?: number;
-  image?: string;
-}
-
+  text: string;
+  published: boolean;
+  sort_order: number;
+  starts_at: string | null;
+  ends_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
 interface NewsHighlightsSectionProps {
-  tickerItems?: string[];
-  featuredNews?: NewsItem;
-  newsItems?: NewsItem[];
-  publications?: Publication[];
+  featuredUpdates?: UpdateItem[];
+  newsTickers?:NewsTickers[]
 }
 
 export const NewsHighlightsSection: React.FC<NewsHighlightsSectionProps> = ({
-  tickerItems = [
-    "Featured as 'Education Innovator of the Year' by Global Education Summit 2024",
-    "New research published in Journal of Educational Technology showing 85% improvement in student engagement",
-    "Keynote speaker at UNESCO International Conference on Digital Learning - Paris, March 2024",
-    "Selected as Harvard Graduate School of Education Visiting Fellow for 2024-2025",
-    "AI-Powered Learning Platform receives $2.3M in Series A funding",
-    "Invited to White House Education Technology Roundtable discussion",
-    "Named to Fortune's '40 Under 40 in Education' list for transformative leadership",
-  ],
-  featuredNews = {
-    id: "featured-1",
-    title: "Pioneering AI in Education: A New Era of Personalized Learning",
-    excerpt:
-      "Our groundbreaking research on AI-driven personalized learning platforms has been featured in Harvard Educational Review, showcasing how machine learning algorithms can adapt to individual student needs in real-time.",
-    category: "publication",
-    date: "2024-03-15",
-    image: "/images/edu.jpg",
-    source: "Harvard Educational Review",
-    link: "/blog/ai-personalized-learning",
-    featured: true,
-    tags: ["AI", "Personalized Learning", "Research", "Harvard"],
-  },
-  newsItems = [
-    {
-      id: "news-1",
-      title: "UNESCO Keynote: Transforming Global Education Systems",
-      excerpt:
-        "Delivered keynote address on innovative educational frameworks at the UNESCO International Conference, reaching over 2,000 education leaders worldwide.",
-      category: "speaking",
-      date: "2024-03-10",
-      image: "/images/edu.jpg",
-      source: "UNESCO Global Conference",
-      link: "/appearances/unesco-2024",
-      featured: false,
-      tags: ["UNESCO", "Keynote", "Global Education", "Leadership"],
-    },
-    {
-      id: "news-2",
-      title: "Digital Equity Research Wins National Innovation Award",
-      excerpt:
-        "Our comprehensive study on bridging the digital divide in education receives the National Education Research Association's highest honor.",
-      category: "award",
-      date: "2024-02-28",
-      image: "/images/edu.jpg",
-      source: "NERA",
-      link: "/news/nera-award-2024",
-      featured: false,
-      tags: ["Award", "Digital Equity", "Research", "Innovation"],
-    },
-    {
-      id: "news-3",
-      title: 'New Book: "The Future of Learning" Launches to Critical Acclaim',
-      excerpt:
-        "Latest publication explores the intersection of technology, pedagogy, and human potential in 21st-century education.",
-      category: "publication",
-      date: "2024-02-15",
-      image: "/images/edu.jpg",
-      source: "Harvard Business Review Press",
-      link: "/publications/future-of-learning",
-      featured: false,
-      tags: ["Book", "Publication", "Future Learning", "Technology"],
-    },
-  ],
-  publications = [
-    {
-      id: "pub-1",
-      title: "Machine Learning Applications in Adaptive Educational Assessment",
-      journal: "Nature Education",
-      date: "2024-03-01",
-      coAuthors: ["Dr. Sarah Chen", "Prof. Michael Rodriguez"],
-      abstract:
-        "This study explores the implementation of machine learning algorithms in creating adaptive assessment systems that personalize to individual student learning patterns.",
-      link: "/publications/ml-adaptive-assessment",
-      citations: 47,
-      image: "/images/edu.jpg",
-    },
-    {
-      id: "pub-2",
-      title: "Digital Equity and Educational Outcomes: A Longitudinal Study",
-      journal: "Educational Psychology Review",
-      date: "2024-01-15",
-      coAuthors: ["Dr. Jennifer Walsh", "Prof. David Kim"],
-      abstract:
-        "A comprehensive five-year longitudinal study examining the correlation between digital access and long-term educational achievement across diverse socioeconomic populations.",
-      link: "/publications/digital-equity-outcomes",
-      citations: 73,
-      image: "/images/edu.jpg",
-    },
-    {
-      id: "pub-3",
-      title: "Neurocognitive Impacts of Immersive Learning Environments",
-      journal: "Frontiers in Educational Neuroscience",
-      date: "2023-11-20",
-      coAuthors: ["Dr. Lisa Park", "Prof. Robert Thompson"],
-      abstract:
-        "Investigation into how virtual and augmented reality learning environments affect cognitive processing and knowledge retention using advanced neuroimaging techniques.",
-      link: "/publications/neurocognitive-immersive-learning",
-      citations: 89,
-      image: "/images/edu.jpg",
-    },
-  ],
+  featuredUpdates,
+  newsTickers
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -157,6 +36,7 @@ export const NewsHighlightsSection: React.FC<NewsHighlightsSectionProps> = ({
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const { updates } = useHomepageContent();
 
   return (
     <section
@@ -214,8 +94,11 @@ export const NewsHighlightsSection: React.FC<NewsHighlightsSectionProps> = ({
             </span>
           </motion.div> */}
 
-          <h2 className="text-3xl lg:text-5xl    font-bold text-gray-900 mb-3 lg:mb-6">
-Updates
+          <h2
+            onClick={() => console.log(updates)}
+            className="text-3xl lg:text-5xl    font-bold text-gray-900 mb-3 lg:mb-6"
+          >
+            Updates
             {/* <span className="block bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent">
               Highlights
             </span> */}
@@ -235,16 +118,15 @@ Updates
         </motion.div>
 
         {/* News Ticker */}
-        <NewsTicker items={tickerItems} />
+      <NewsTicker   tickersItems={ newsTickers} />
 
         {/* Featured News */}
-        <FeaturedNews news={featuredNews} />
-
+        {/* <FeaturedNews   /> */}
+        <HomeFeaturedUpdate featuredUpdates={featuredUpdates} />
         {/* Publication Showcase */}
-        <Blogs blogs={publications} />
 
         {/* News Grid */}
-        <NewsGrid newsItems={newsItems} />
+        <UpdatesGrid updates={updates} />
 
         {/* Call to Action */}
         <motion.div
@@ -255,13 +137,13 @@ Updates
           className="text-center mt-10 lg:mt-20"
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
+           <Link href={'/updates'}> <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-2.5 lg:py-4 bg-gradient-to-r from-red-600 to-black text-white font-bold rounded-full hover:from-red-700 hover:to-gray-700 transition-all duration-300 shadow-xl"
             >
               View All News
-            </motion.button>
+            </motion.button></Link>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

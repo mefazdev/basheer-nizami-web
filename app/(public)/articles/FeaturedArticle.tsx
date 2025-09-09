@@ -4,38 +4,21 @@
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Eye, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  author: string;
-  publishDate: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  image: string;
-  views: number;
-}
+import {Article} from '@/lib/types/article'
+import Link from 'next/link';
+ 
 
 interface FeaturedArticleProps {
   article: Article;
   index: number;
 }
 
-const categoryColors = {
-  leadership: 'bg-blue-100 text-blue-800 border-blue-200',
-  spirituality: 'bg-purple-100 text-purple-800 border-purple-200',
-  education: 'bg-green-100 text-green-800 border-green-200',
-  'personal-growth': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  innovation: 'bg-red-100 text-red-800 border-red-200'
-};
-
+ 
 export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index }) => {
-  const categoryStyle = categoryColors[article.category as keyof typeof categoryColors] || categoryColors.education;
-
+  
   return (
-    <motion.article
+   <Link href={`/articles/${article?.slug}`}>
+ <motion.article
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -46,11 +29,11 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index
       <div className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
         {/* Article Image */}
         <div className="relative aspect-[16/10] overflow-hidden">
-          <Image fill
-            src={article.image}
+          {article?.image && <Image fill
+            src={article?.image}
             alt={article.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          />
+          />}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           
           {/* Featured Badge */}
@@ -62,8 +45,8 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index
           
           {/* Category Badge */}
           <div className="absolute top-3 lg:top-6 right-6 lg:right-6">
-            <span className={`px-3 py-1 rounded-full text-sm lg:font-semibold border ${categoryStyle}`}>
-              {article.category.replace('-', ' ').toUpperCase()}
+            <span className={`px-3 py-1 rounded-full text-sm lg:font-semibold borde `}>
+              {article?.category?.replace('-', ' ').toUpperCase()}
             </span>
           </div>
         </div>
@@ -74,7 +57,7 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index
           <div className=" hidden md:flex items-center gap-6 mb-4 text-sm text-gray-500">
             <div className="flex items-center">
               <Calendar className="w-4 h-4 mr-1" />
-              {new Date(article.publishDate).toLocaleDateString('en-US', {
+              {new Date(article?.publishDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -86,7 +69,7 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index
             </div>
             <div className="flex items-center">
               <Eye className="w-4 h-4 mr-1" />
-              {article.views.toLocaleString()} views
+              {article?.views?.toLocaleString()} views
             </div>
           </div>
           
@@ -123,6 +106,7 @@ export const FeaturedArticle: React.FC<FeaturedArticleProps> = ({ article, index
           </motion.button>
         </div>
       </div>
-    </motion.article>
+    </motion.article>   
+   </Link>
   );
 };

@@ -104,6 +104,7 @@ export const VideoSchema = z.object({
     .default(undefined),
 
   published: z.boolean().default(true),
+    featured: z.boolean().default(false),
 })
 
 export const VideoUpdateSchema = VideoSchema.partial()

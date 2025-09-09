@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-// import { Biography } from './about/Biography';
-
+ 
 import { Biography } from "./Biography";
 import { Portrait } from "./Portrait";
  
@@ -40,76 +39,7 @@ export const About: React.FC<AboutSectionProps> = ({
     image: "/images/leader-portrait.jpg",
     alt: "Educational Leader Portrait",
   },
-  // milestones = [
-  //   {
-  //     year: "2003",
-  //     title: "Started Teaching Career",
-  //     description:
-  //       "Began as a mathematics teacher at Lincoln High School, introducing innovative problem-solving techniques.",
-  //     category: "education",
-  //   },
-  //   {
-  //     year: "2008",
-  //     title: "Curriculum Development Leadership",
-  //     description:
-  //       "Led the development of integrated STEM curriculum adopted by 15+ schools in the district.",
-  //     category: "leadership",
-  //   },
-  //   {
-  //     year: "2012",
-  //     title: "Principal Appointment",
-  //     description:
-  //       "Appointed as Principal of Metropolitan Academy, turning around a struggling institution.",
-  //     category: "leadership",
-  //   },
-  //   {
-  //     year: "2016",
-  //     title: "Education Excellence Award",
-  //     description:
-  //       "Received the National Education Excellence Award for outstanding contributions to student achievement.",
-  //     category: "award",
-  //   },
-  //   {
-  //     year: "2019",
-  //     title: "District Superintendent",
-  //     description:
-  //       "Promoted to District Superintendent, overseeing 50+ schools and 25,000+ students.",
-  //     category: "leadership",
-  //   },
-  //   {
-  //     year: "2022",
-  //     title: "International Recognition",
-  //     description:
-  //       "Featured as one of the 'Top 100 Global Education Leaders' by Education World Magazine.",
-  //     category: "achievement",
-  //   },
-  // ],
-  // values = [
-  //   {
-  //     title: "Excellence in Education",
-  //     description:
-  //       "Commitment to providing the highest quality education that prepares students for future success.",
-  //     icon: "🎓",
-  //   },
-  //   {
-  //     title: "Inclusive Leadership",
-  //     description:
-  //       "Creating environments where every voice is heard and every individual can contribute meaningfully.",
-  //     icon: "🤝",
-  //   },
-  //   {
-  //     title: "Innovation & Growth",
-  //     description:
-  //       "Embracing new technologies and methodologies to continuously improve educational outcomes.",
-  //     icon: "🚀",
-  //   },
-  //   {
-  //     title: "Community Impact",
-  //     description:
-  //       "Building strong partnerships with families and communities to support holistic student development.",
-  //     icon: "🏘️",
-  //   },
-  // ],
+ 
 }) => {
   return (
     <section className="py-16 lg:py-20 bg-gradient-to-b from-gray-50 to-white">

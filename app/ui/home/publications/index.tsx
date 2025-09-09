@@ -6,156 +6,97 @@ import { useRef, useState } from "react";
 import { FeaturedBook } from "./FeaturedBook";
 import { PublicationFilter } from "./PublicationFilter";
 import { BooksGrid } from "./BookGrid";
- 
+import { usePublicationsData } from "@/hooks/use-publications-data";
+ import { usePublicationCategoriesData } from "@/hooks/use-publication-categories-data";
+import { StorageUploader } from "@/lib/storage/upload";
+import { Book } from "@/lib/types/publication";
+import { mapPublicationToBook } from "@/lib/utils/publication";
+import Link from "next/link";
 
-interface Book {
-  id: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  coverImage: string;
-  isbn: string;
-  publicationDate: string;
-  publisher: string;
-  pages: number;
-  category: "book" | "chapter" | "edited-volume";
-  featured?: boolean;
-  awards?: string[];
-  reviews?: {
-    source: string;
-    excerpt: string;
-    rating?: number;
-  }[];
-  purchaseLinks: {
-    amazon?: string;
-    barnes?: string;
-    publisher?: string;
-    google?: string;
-  };
-  tags: string[];
-}
+// interface Book {
+//   id: string;
+//   title: string;
+//   subtitle?: string;
+//   description: string;
+//   coverImage: string;
+//   isbn: string;
+//   publicationDate: string;
+//   publisher: string;
+//   pages: number;
+//   category: "book" | "chapter" | "edited-volume";
+//   featured?: boolean;
+//   awards?: string[];
+//   reviews?: {
+//     source: string;
+//     excerpt: string;
+//     rating?: number;
+//   }[];
+//   purchaseLinks: {
+//     amazon?: string;
+//     barnes?: string;
+//     publisher?: string;
+//     google?: string;
+//   };
+//   tags: string[];
+// }
 
-interface AcademicPublication {
-  id: string;
-  title: string;
-  abstract: string;
-  journal: string;
-  volume?: string;
-  issue?: string;
-  pages?: string;
-  publicationDate: string;
-  doi?: string;
-  pmid?: string;
-  citations: number;
-  impact: number;
-  coAuthors: string[];
-  category: "research" | "review" | "editorial" | "conference";
-  openAccess: boolean;
-  downloadLink?: string;
-  tags: string[];
-}
-
+// interface AcademicPublication {
+//   id: string;
+//   title: string;
+//   abstract: string;
+//   journal: string;
+//   volume?: string;
+//   issue?: string;
+//   pages?: string;
+//   publicationDate: string;
+//   doi?: string;
+//   pmid?: string;
+//   citations: number;
+//   impact: number;
+//   coAuthors: string[];
+//   category: "research" | "review" | "editorial" | "conference";
+//   openAccess: boolean;
+//   downloadLink?: string;
+//   tags: string[];
+// }
+// interface PuvlicationDB {
+//   page: number;
+//   search: string;
+//   category: string;
+//   year: string;
+// }
 interface BooksPublicationsSectionProps {
   books?: Book[];
-  academicPublications?: AcademicPublication[];
-  featuredBook?: Book;
+  // academicPublications?: AcademicPublication[];
+  // featuredBook?: Book;
+  // publicationDB?: PuvlicationDB;
+  search?: string;
+  category?: string;
+  year?: string;
+    page?: number;
 }
 
 export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
-  books = [
-    {
-      id: "future-of-learning",
-      title: "The Future of Learning",
-      subtitle: "Transforming Education Through Technology and Innovation",
-      description:
-        "A comprehensive exploration of how artificial intelligence, personalized learning, and innovative pedagogies are reshaping the educational landscape. This groundbreaking work provides practical frameworks for educators, administrators, and policymakers to navigate the digital transformation of education.",
-      coverImage: "/images/book.jpg",
-      isbn: "978-0-674-24789-3",
-      publicationDate: "2024-01-15",
-      publisher: "Harvard Business Review Press",
-      pages: 384,
-      category: "book",
-      featured: true,
-      awards: [
-        "Education Book of the Year 2024",
-        "Choice Outstanding Academic Title",
-      ],
-      reviews: [
-        {
-          source: "New York Times",
-          excerpt:
-            "A visionary guide that brilliantly bridges the gap between educational theory and practical innovation.",
-          rating: 5,
-        },
-        {
-          source: "Educational Leadership",
-          excerpt:
-            "Essential reading for anyone committed to transforming education for the 21st century.",
-        },
-      ],
-      purchaseLinks: {
-        amazon: "https://amazon.com/future-of-learning",
-        barnes: "https://barnesandnoble.com/future-of-learning",
-        publisher: "https://hbr.org/future-of-learning",
-        google: "https://books.google.com/future-of-learning",
-      },
-      tags: [
-        "Education Technology",
-        "AI in Education",
-        "Innovation",
-        "Leadership",
-      ],
-    },
-    {
-      id: "digital-equity-education",
-      title: "Digital Equity in Education",
-      subtitle: "Bridging the Technology Gap for All Learners",
-      description:
-        "An in-depth analysis of the digital divide in education and comprehensive strategies for ensuring equitable access to technology-enhanced learning opportunities.",
-      coverImage: "/images/book.jpg",
-      isbn: "978-1-118-97234-8",
-      publicationDate: "2023-06-20",
-      publisher: "Jossey-Bass",
-      pages: 312,
-      category: "book",
-      featured: false,
-      awards: ["American Library Association Notable Book"],
-      purchaseLinks: {
-        amazon: "https://amazon.com/digital-equity-education",
-        barnes: "https://barnesandnoble.com/digital-equity",
-        publisher: "https://josseybass.com/digital-equity",
-      },
-      tags: ["Digital Equity", "Access", "Social Justice", "Technology"],
-    },
-    {
-      id: "neuroscience-classroom",
-      title: "Neuroscience in the Classroom",
-      subtitle: "Evidence-Based Strategies for Enhanced Learning",
-      description:
-        "Translating cutting-edge neuroscience research into practical classroom applications that optimize learning and cognitive development.",
-      coverImage: "/images/book.jpg",
-      isbn: "978-0-521-87543-2",
-      publicationDate: "2022-09-10",
-      publisher: "Cambridge University Press",
-      pages: 288,
-      category: "book",
-      featured: false,
-      purchaseLinks: {
-        amazon: "https://amazon.com/neuroscience-classroom",
-        publisher: "https://cambridge.org/neuroscience-classroom",
-      },
-      tags: [
-        "Neuroscience",
-        "Learning",
-        "Cognitive Development",
-        "Evidence-Based",
-      ],
-    },
-  ],
 
-  featuredBook,
+
+  // featuredBook,
+  page,
+  search,
+  category,
+  year,
+ 
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  // const [selectedCategory, setSelectedCategory] = useState<string>("all");
+   const { data } = usePublicationsData({
+      page:1,
+      search,
+      category_id: category || undefined,
+      year: year ? parseInt(year) : undefined,
+      limit:3
+    });
+  
+      const books: Book[] = (data?.data ?? []).map(mapPublicationToBook);
+  
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -165,23 +106,24 @@ export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
-  const featured = featuredBook || books.find((b) => b.featured) || books[0];
+  // const featured = featuredBook || books.find((b) => b.featured) || books[0];
+const featured =   (data?.data ?? []).map(mapPublicationToBook).find((v) => v.featured) ;
 
-  const categories = [
-    { id: "all", label: "All Publications", count: books.length },
-    {
-      id: "books",
-      label: "Books",
-      count: books.filter((b) => b.category === "book").length,
-    },
-    // { id: 'research', label: 'Research Papers', count: academicPublications.filter(p => p.category === 'research').length },
-    // { id: 'reviews', label: 'Review Articles', count: academicPublications.filter(p => p.category === 'review').length },
-    {
-      id: "edited",
-      label: "Edited Volumes",
-      count: books.filter((b) => b.category === "edited-volume").length,
-    },
-  ];
+  // const categories = [
+  //   { id: "all", label: "All Publications", count: books.length },
+  //   {
+  //     id: "books",
+  //     label: "Books",
+  //     count: books.filter((b) => b.category === "book").length,
+  //   },
+  //   // { id: 'research', label: 'Research Papers', count: academicPublications.filter(p => p.category === 'research').length },
+  //   // { id: 'reviews', label: 'Review Articles', count: academicPublications.filter(p => p.category === 'review').length },
+  //   {
+  //     id: "edited",
+  //     label: "Edited Volumes",
+  //     count: books.filter((b) => b.category === "edited-volume").length,
+  //   },
+  // ];
 
   return (
     <section
@@ -242,7 +184,7 @@ export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
             </span>
           </motion.div> */}
 
-          <h2 className= " text-4xl lg:text-5xl   mt-10 font-bold text-gray-900 mb-2 lg:mb-6">
+          <h2 onClick={()=>console.log(featured )} className= " text-4xl lg:text-5xl   mt-10 font-bold text-gray-900 mb-2 lg:mb-6">
             Books &
             <span className="block bg-gradient-to-r from-red-600 to-gray-800 bg-clip-text text-transparent">
               Publications
@@ -263,17 +205,17 @@ export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
         </motion.div>
 
         {/* Featured Book */}
-        <FeaturedBook book={featured} />
+   {featured &&      <FeaturedBook book={featured} />}
 
         {/* Publication Filter */}
-        <PublicationFilter
+        {/* <PublicationFilter
           categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
-        />
+        /> */}
 
         {/* Content Based on Filter */}
-        {(selectedCategory === "all" ||
+        {/* {(selectedCategory === "all" ||
           selectedCategory === "books" ||
           selectedCategory === "edited") && (
           <BooksGrid
@@ -285,7 +227,14 @@ export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
                   book.category === "edited-volume")
             )}
           />
-        )}
+        )} */}
+   
+          <BooksGrid
+            books={books}
+               
+          />
+     
+
 
         {/* {(selectedCategory === 'all' || selectedCategory === 'research' || selectedCategory === 'reviews') && (
           <AcademicPublications 
@@ -307,13 +256,13 @@ export const PublicationsSection: React.FC<BooksPublicationsSectionProps> = ({
           className="text-center mt-20"
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
+            <Link href={'/publications'}><motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-gradient-to-r from-red-600 to-black text-white font-bold rounded-full hover:from-red-700 hover:to-black/70 transition-all duration-300 shadow-xl"
             >
               View More
-            </motion.button>
+            </motion.button></Link>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

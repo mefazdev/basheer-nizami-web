@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Menu, X, Home, Users, Target, Play, FileText, 
-  MessageCircle, ArrowRight,   ChevronRight
+  MessageCircle, ArrowRight,   ChevronRight,BookOpen,Camera
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,9 +35,13 @@ export default function MobileNavbar() {
     { name: 'Home', href: '/', icon: Home, description: 'Welcome & Overview' },
     { name: 'About', href: '/about', icon: Users, description: 'Our Story & Mission' },
     { name: 'Initiatives', href: '/initiatives', icon: Target, description: 'Key Programs' },
-    { name: 'Videos', href: '/videos', icon: Play, description: 'Educational Content' },
+  
     { name: 'Articles', href: '/articles', icon: FileText, description: 'Latest Insights' },
-    { name: 'Contact', href: '/contact', icon: MessageCircle, description: 'Get in Touch' }
+    { name: 'Publications', href: '/publications', icon: BookOpen, description: 'Educational Content' },
+    { name: 'Updates', href: '/updates', icon: FileText, description: 'Latest Insights' },
+    { name: 'Videos', href: '/videos', icon: Play, description: 'Educational Content' },
+     { name: 'Photos', href: '/gallery', icon: Camera, description: 'Educational Content' },
+     { name: 'Contact', href: '/contact', icon: MessageCircle, description: 'Get in Touch' }
   ];
 
   const toggleMenu = () => {
@@ -47,7 +51,7 @@ export default function MobileNavbar() {
   const handleLinkClick = (href: string) => {
     setIsMenuOpen(false);
     // Here you would handle navigation
-    console.log(`Navigating to: ${href}`);
+    // console.log(`Navigating to: ${href}`);
   };
 
   return (
@@ -59,7 +63,7 @@ export default function MobileNavbar() {
       //     ? 'bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-200/50' 
       //     : 'bg-white/80 backdrop-blur-sm'
       // }`}
-       className={`fixed bg-gradient-to-r from-slate-900 to-gray-500 top-0 left-0 right-0 z-50 transition-all duration-300 ${
+       className={`fixed bg-gradient-to-r from-slate-900 to-gray-800 top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || isMenuOpen 
           ? '  backdrop-blur-lg shadow-lg border-b border-gray-200/50' 
           : ' backdrop-blur-sm'
@@ -111,7 +115,7 @@ export default function MobileNavbar() {
       }`}>
         
         {/* Menu Header */}
-        <div className="bg-gradient-to-r from-slate-800 to-gray-700 px-6 py-8">
+        <div className="bg-gradient-to-r from-slate-800 to-gray-700 px-6 py-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
               
@@ -130,13 +134,14 @@ export default function MobileNavbar() {
           
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
              
-            <button 
-              onClick={() => handleLinkClick('#invite')}
+            <a 
+            href='https://ailtacademy.com/'
+              // onClick={() => handleLinkClick('#invite')}
               className="w-full bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
             >
-              <span>Send Invite</span>
+              <span>AILT ACADEMY</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
 
@@ -170,9 +175,9 @@ export default function MobileNavbar() {
                     }`}>
                       {link.name}
                     </div>
-                    <div className="text-sm text-gray-500 group-hover:text-slate-600 transition-colors">
+                    {/* <div className="text-sm text-gray-500 group-hover:text-slate-600 transition-colors">
                       {link.description}
-                    </div>
+                    </div> */}
                   </div>
                   <ChevronRight className={`w-5 h-5 transition-all duration-300 ${
                     index === 0 ? 'text-blue-600' : 'text-gray-400 group-hover:text-slate-600 group-hover:translate-x-1'

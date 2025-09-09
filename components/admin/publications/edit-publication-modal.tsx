@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload, X, FileText, Loader2 } from "lucide-react";
 import Image from "next/image";
@@ -38,6 +38,8 @@ import {
   validateFileSize,
 } from "@/lib/storage/upload";
 import type { PublicationWithCategory } from "@/lib/types";
+import { Label } from "@/components/ui/Label";
+import { Switch } from "@/components/ui/Switch";
 
 interface EditPublicationModalProps {
   publication: PublicationWithCategory;
@@ -76,6 +78,7 @@ export function EditPublicationModal({
       buy_url: publication.buy_url || "",
       published: publication.published,
       cover_path: publication.cover_path || "",
+      featured: publication?.featured || false,
     },
   });
 
@@ -522,7 +525,22 @@ export function EditPublicationModal({
               name="published"
               label="Published"
             /> */}
-
+<div className="flex items-center justify-between rounded-md border border-gray-700 p-3">
+              <Label htmlFor="featured" className="text-sm text-gray-300">
+                Mark as Featured
+              </Label>
+              <Controller
+                name="featured"
+                control={form.control}
+                render={({ field }) => (
+                  <Switch
+                    id="featured"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type="button"

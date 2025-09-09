@@ -1,16 +1,19 @@
+ 
 export interface VideoItem {
   id: string;
   title: string;
   description: string;
   youtubeId: string;
   thumbnail?: string;
-  category: 'conferences' | 'tv' | 'public-events';
+  category: string ;
   date: string;
   venue?: string;
-  duration: string;
-  views?: number;
+  duration: number;
+  // views?: number;
   featured?: boolean;
   tags: string[];
+ 
+  
 }
 
 
@@ -20,10 +23,11 @@ export interface Video {
   description: string;
   youtubeId: string;
   thumbnail?: string;
-  category: 'lectures' | 'highlights' | 'talk-shows';
-  duration: string;
-  views: number;
-  uploadDate: string;
+  category: string
+  duration: number;
+  date: string;
+  // views: number;
+  // uploadDate: string;
   tags: string[];
   featured?: boolean;
 }

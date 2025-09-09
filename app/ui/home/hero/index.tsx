@@ -11,20 +11,27 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { QuoteSlide } from "./slides/QuoteSlide";
 import { NewsSlide } from "./slides/NewsSlider";
+import { UpdateItem } from "@/lib/types/updates";
 // import { QuoteSlide } from './slides/QuoteSlide';
 // import { NewsSlide } from './slides/NewsSlider';
 
+type NewsTickers = {
+  id: string;
+  text: string;
+  published: boolean;
+  sort_order: number;
+  starts_at: string | null;
+  ends_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
 interface HeroCarouselProps {
   quote?: {
     text: string;
     description: string;
     image: string;
   };
-  video?: {
-    url: string;
-    thumbnail: string;
-    title: string;
-  };
+
   news?: {
     title: string;
     summary: string;
@@ -38,40 +45,25 @@ interface HeroCarouselProps {
     date: string;
   };
   newsTickerItems?: string[];
+  newsTickers?: NewsTickers[];
+  featuredNewses?: UpdateItem[];
 }
 
-  const HeroSection: React.FC<HeroCarouselProps> = ({
+const HeroSection: React.FC<HeroCarouselProps> = ({
   quote = {
     text: "Lighting Minds. Lifting Futures.",
-    description: "Discover the journey of Dr. Basheer Nizami — a visionary educator, spiritual mentor, and founder of AILT Global Academy.",
+    description:
+      "Discover the journey of Dr. Basheer Nizami — a visionary educator, spiritual mentor, and founder of AILT Global Academy.",
     image: "/images/7.jpeg",
   },
-  // video = {
-  //   url: "/videos/1.mp4",
-  //   thumbnail: "/1.jpg",
-  //   title: "Inspiring Leadership Speech"
-  // },
-
-  news = {
-    title: "Groundbreaking Educational Initiative Launched",
-    summary:
-      "A new program aimed at transforming educational outcomes has been successfully implemented across multiple institutions.",
-    image: "/images/9.jpeg",
-    date: "2024-12-15",
-  },
-  news2 = {
-    title: "Global Education Alliance",
-    summary:
-      "A new program aimed at transforming educational outcomes has been successfully implemented across multiple institutions.",
-    image: "/images/8.jpeg",
-    date: "2024-12-15",
-  },
-  newsTickerItems = [
-    "Meeladunnabi celebrations announced",
-    "Research shows 40% improvement in student outcomes",
-    "Youth talk shows to be heled on next month",
-    "Innovation in digital learning platforms continues to grow",
-  ],
+   
+  //   "Meeladunnabi celebrations announced",
+  //   "Research shows 40% improvement in student outcomes",
+  //   "Youth talk shows to be heled on next month",
+  //   "Innovation in digital learning platforms continues to grow",
+  // ],
+  newsTickers,
+  featuredNewses,
 }) => {
   return (
     <div className="relative w-full h-[85vh] md:h-screen overflow-hidden pt-10 md:pt-0">
@@ -95,9 +87,9 @@ interface HeroCarouselProps {
         <SwiperSlide>
           <QuoteSlide
             quote={quote.text}
-           description={quote.description}
+            description={quote.description}
             backgroundImage={quote.image}
-            tickerItems={newsTickerItems}
+            tickerItems={newsTickers}
           />
         </SwiperSlide>
 
@@ -108,17 +100,21 @@ interface HeroCarouselProps {
             title={video.title}
           />
         </SwiperSlide> */}
+        {featuredNewses?.map((news) => (
+          <SwiperSlide key={news._id}>
+            <NewsSlide
+              key={news._id}
+              title={news.title}
+              summary={news.excerpt}
+              image={news?.image || ""}
+              date={news.publishedAt}
+              slug={news?.slug}
+              tickerItems={newsTickers}
+            />
+          </SwiperSlide>
+        ))}
 
-     <SwiperSlide>
-          <NewsSlide
-            title={news.title}
-            summary={news.summary}
-            image={news.image}
-            date={news.date}
-            tickerItems={newsTickerItems}
-          />
-        </SwiperSlide>
-       <SwiperSlide>
+        {/* <SwiperSlide>
           <NewsSlide
             title={news2.title}
             summary={news2.summary}
@@ -126,11 +122,10 @@ interface HeroCarouselProps {
             date={news2.date}
             tickerItems={newsTickerItems}
           />
-        </SwiperSlide>  
+        </SwiperSlide>   */}
       </Swiper>
     </div>
   );
 };
 
-export default HeroSection
- 
+export default HeroSection;

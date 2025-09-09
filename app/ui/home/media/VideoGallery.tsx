@@ -2,8 +2,10 @@
 "use client";
 
 import { VideoItem } from "@/lib/types/media";
+import { formatDuration } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Play,  Clock } from "lucide-react";
+import Image from "next/image";
 
 interface VideoGalleryProps {
   videos: VideoItem[];
@@ -15,10 +17,14 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({
   videos,
   onVideoClick,
 }) => {
+
+          {/* // const thumbnailUrl = "/images/7.jpeg"; */}
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {videos.map((video ) => {
-        const thumbnailUrl = "/images/7.jpeg";
+
+      {videos?.map((video ) => {
+      
+         const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`
 
         return (
           <motion.div
@@ -34,7 +40,9 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({
             <div className="bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-500 shadow-xl hover:shadow-2xl">
               {/* Video Thumbnail */}
               <div className="relative aspect-video overflow-hidden">
-                <img
+                <Image
+              
+                fill
                   src={thumbnailUrl}
                   alt={video.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -54,15 +62,24 @@ export const VideoGallery: React.FC<VideoGalleryProps> = ({
                 <div className="absolute top-4 left-4">
                   <span className="bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
                      
-                    {video.category.replace("-", " ").toUpperCase()}
+                    {video.category?.replace("-", " ").toUpperCase()}
                   </span>
                 </div>
 
                 {/* Duration Badge */}
-                <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-lg text-xs font-medium flex items-center">
+                {/* <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-lg text-xs font-medium flex items-center">
                   <Clock className="w-3 h-3 mr-1" />
                   {video.duration}
-                </div>
+                </div> */}
+
+                  {video?.duration  ? (
+                                        <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-lg text-xs font-medium flex items-center">
+                                          <Clock className="w-3 h-3 mr-1"/>
+                                          {formatDuration(video?.duration )}
+                                        </div>
+                                     ) : (
+                                        <span className="text-muted-foreground">—ssss</span>
+                                      )}  
               </div>
 
               {/* Video Details */}

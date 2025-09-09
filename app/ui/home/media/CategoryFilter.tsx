@@ -3,25 +3,28 @@
 // components/media/CategoryFilter.tsx
 'use client';
 
+import { useVideoCategories } from '@/hooks/use-video-categories';
 import { motion } from 'framer-motion';
 
-interface Category {
-  id: string;
-  label: string;
-  count: number;
-}
+// interface Category {
+//   id: string;
+//   label: string;
+//   count: number;
+// }
 
 interface CategoryFilterProps {
-  categories: Category[];
+  // categories: Category[];
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
 }
 
 export const CategoryFilter: React.FC<CategoryFilterProps> = ({
-  categories,
+  // categories,
   selectedCategory,
   onCategoryChange
 }) => {
+
+    const { data: categories } = useVideoCategories();
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -36,7 +39,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
       </div>
       
       <div className="flex flex-wrap justify-center gap-4">
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <motion.button
             key={category.id}
             whileHover={{ scale: 1.05 }}
@@ -48,10 +51,10 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 : 'bg-white/10 backdrop-blur-sm text-gray-300 hover:bg-white/20 border border-white/20'
             }`}
           >
-            {category.label}
-            <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">
-              {category.count}
-            </span>
+            {category.name}
+            {/* <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">
+              {category.}
+            </span> */}
           </motion.button>
         ))}
       </div>

@@ -1,90 +1,81 @@
 // components/MediaSpeechesSection.tsx
-'use client';
+"use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { FeaturedVideo } from './FeaturedVideo';
-import { CategoryFilter } from './CategoryFilter';
-import { VideoGallery } from './VideoGallery';
-import { VideoModal } from './VideoModal';
-import { VideoItem } from '@/lib/types/media';
-import Link from 'next/link';
- 
-interface MediaSpeechesSectionProps {
-  videos?: VideoItem[];
-  featuredVideo?: VideoItem;
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { FeaturedVideo } from "./FeaturedVideo";
+// import { CategoryFilter } from "./CategoryFilter";
+import { VideoGallery } from "./VideoGallery";
+import { VideoModal } from "./VideoModal";
+import { VideoItem } from "@/lib/types/media";
+import Link from "next/link";
+import { useVideosData } from "@/hooks/use-videos-data";
+import { toVideoItem } from "@/lib/utils/video";
+// import { useVideoCategories } from "@/hooks/use-video-categories";
+
+// interface MediaSpeechesSectionProps {
+//   videos?: VideoItem[];
+//   featuredVideo?: VideoItem;
+// category_id:string
+// }
+interface VideosTableProps {
+  searchParams?: {
+    page?: string;
+    search?: string;
+    category?: string;
+    published?: string;
+    dateFrom?: string;
+    dateTo?: string;
+  };
 }
-
-export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
-  videos = [
-    {
-      id: 'featured-ted',
-      title: 'The Future of Personalized Learning: AI in Education',
-      description: 'A comprehensive exploration of how artificial intelligence is revolutionizing personalized learning experiences and transforming educational outcomes for students worldwide.',
-          youtubeId: 'p1c-EaO-M8A',
-      category: 'conferences',
-      date: '2024-03-15',
-      venue: 'TED Education Conference',
-      duration: '18:42',
-      views: 245000,
-      featured: true,
-      tags: ['AI', 'Personalized Learning', 'TED', 'Innovation']
-    },
-     
-     
-     
+export const MediaSpeechesSection: React.FC<VideosTableProps> = (
   
-    {
-      id: 'mit-symposium',
-      title: 'MIT EdTech Symposium: AI-Powered Learning Platforms',
-      description: 'Presentation on developing AI-powered learning platforms that adapt to individual student needs and optimize learning outcomes.',
-      youtubeId: 'p1c-EaO-M8A',
-      category: 'conferences',
-      date: '2024-01-25',
-      venue: 'MIT Technology Review Symposium',
-      duration: '28:56',
-      views: 94000,
-      featured: false,
-      tags: ['MIT', 'EdTech', 'AI', 'Learning Platforms']
-    },
-   
-    
-    
-    {
-      id: 'community-town-hall',
-      title: 'Community Town Hall: Building 21st Century Schools',
-      description: 'Community engagement session discussing plans for modernizing local schools with cutting-edge technology and pedagogy.',
-      youtubeId: 'p1c-EaO-M8A',
-      category: 'public-events',
-      date: '2023-11-15',
-      venue: 'City Community Center',
-      duration: '35:45',
-      views: 23000,
-      featured: false,
-      tags: ['Community', 'Town Hall', '21st Century', 'Modernization']
-    },
-   
-   
-  ],
-  featuredVideo
-}) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+ 
+{ searchParams }: VideosTableProps
+ 
+) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-  const filteredVideos = selectedCategory === 'all' 
-    ? videos 
-    : videos.filter(video => video.category === selectedCategory);
 
-  const featured = featuredVideo || videos.find(v => v.featured) || videos[0];
+  const page = parseInt(searchParams?.page || "1");
+  // const search = searchParams?.search || "";
+  const categoryId = searchParams?.category || "all";
+  const published = searchParams?.published || "all";
+
+
+const { data  } = useVideosData({
+    page,
+    // search,
+    category_id: categoryId === "all" ? undefined : categoryId,
+    published: published === "all" ? undefined : published === "true",
+    limit:3
+  });  
+//  const { data: categories } = useVideoCategories();
+
+  // const filteredVideos =
+  //   selectedCategory === "all"
+  //     ? data?.data
+  //     : data?.data?.filter((video) => video.category_id === categoryId);
+
+  const filteredVideos =
+  selectedCategory === "all"
+    ? (data?.data ?? []).map(toVideoItem)
+    : (data?.data ?? [])
+        .filter((video) => video.category_id === selectedCategory)
+        .map(toVideoItem);
+
+
+  const featured =   (data?.data ?? []).map(toVideoItem).find((v) => v.featured)  ;
 
   const handleVideoClick = (video: VideoItem) => {
     setSelectedVideo(video);
@@ -96,20 +87,15 @@ export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
     setSelectedVideo(null);
   };
 
-  const categories = [
-    { id: 'all', label: 'All Videos', count: videos.length },
-    { id: 'conferences', label: 'Conferences', count: videos.filter(v => v.category === 'conferences').length },
-    { id: 'luctures', label: 'Luctures', count: videos.filter(v => v.category === 'tv').length },
-    { id: 'public-events', label: 'Public Events', count: videos.filter(v => v.category === 'public-events').length }
-  ];
+  
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative py-20 lg:py-32 bg-gradient-to-br from-black via-gray-800 to-black overflow-hidden"
     >
       {/* Advanced Background Elements */}
-      <motion.div 
+      <motion.div
         style={{ y: backgroundY }}
         className="absolute inset-0 opacity-30"
       >
@@ -120,10 +106,24 @@ export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
 
       {/* Animated Grid Pattern */}
       <div className="absolute inset-0 opacity-10">
-        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
           <defs>
-            <pattern id="media-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+            <pattern
+              id="media-grid"
+              width="10"
+              height="10"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 10 0 L 0 0 0 10"
+                fill="none"
+                stroke="white"
+                strokeWidth="0.5"
+              />
             </pattern>
           </defs>
           <rect width="100" height="100" fill="url(#media-grid)" />
@@ -151,13 +151,13 @@ export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
             </span>
           </motion.div>
            */}
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h2 onClick={()=>console.log(filteredVideos)} className="text-4xl md:text-6xl font-bold text-white mb-6">
             Media &
             <span className="block bg-gradient-to-r from-white/30 to-gray-300 bg-clip-text text-transparent">
-            Luctures
+              Luctures
             </span>
           </h2>
-          
+
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "8rem" }}
@@ -165,35 +165,35 @@ export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
             viewport={{ once: true }}
             className="h-1 bg-gradient-to-r from-white/30 to-gray-300 mx-auto rounded-full mb-8"
           />
-          
+
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Watch keynote speeches, television interviews, and public presentations showcasing thought leadership in educational innovation and transformation
+            Watch keynote speeches, television interviews, and public
+            presentations showcasing thought leadership in educational
+            innovation and transformation
           </p>
         </motion.div>
 
         {/* Featured Video */}
-        <FeaturedVideo 
-          video={featured} 
+        {featured && <FeaturedVideo
+          video={featured}
           onPlay={() => handleVideoClick(featured)}
-        />
+        />}
 
         {/* Category Filter */}
-       <div className='hidden lg:block'>
-         <CategoryFilter 
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-        />
-       </div>
+        {/* <div className="hidden lg:block">
+          <CategoryFilter
+            // categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
+        </div> */}
 
         {/* Video Gallery */}
-        <VideoGallery 
-          videos={filteredVideos}
-          onVideoClick={handleVideoClick}
-        />
+        {filteredVideos &&  <VideoGallery videos={filteredVideos|| []} onVideoClick={handleVideoClick} />}
+       
 
         {/* Video Modal */}
-        <VideoModal 
+        <VideoModal
           video={selectedVideo}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
@@ -222,43 +222,44 @@ export const MediaSpeechesSection: React.FC<MediaSpeechesSectionProps> = ({
             >
         View More
             </motion.button> */}
-        <Link href='/videos'>    <motion.button
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="group relative inline-flex items-center px-10 lg:px-12 py-2.5 lg:py-4 bg-gradient-to-r from-slate-600 to-black/70 text-white font-bold rounded-full hover:from-red-700 hover:to-gray-700 transition-all duration-300 shadow-xl overflow-hidden"
-        >
-          <span className="relative z-10 ">VIEW MORE </span>
-          <motion.svg
-            className="relative z-10 ml-3 w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            whileHover={{ x: 5 }}
-            transition={{ duration: 0.2 }}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 7l5 5m0 0l-5 5m5-5H6"
-            />
-          </motion.svg>
+            <Link href="/videos">
+              {" "}
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative inline-flex items-center px-10 lg:px-12 py-2.5 lg:py-4 bg-gradient-to-r from-slate-600 to-black/70 text-white font-bold rounded-full hover:from-red-700 hover:to-gray-700 transition-all duration-300 shadow-xl overflow-hidden"
+              >
+                <span className="relative z-10 ">VIEW MORE </span>
+                <motion.svg
+                  className="relative z-10 ml-3 w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </motion.svg>
 
-          <motion.div
-            initial={{ x: "-100%" }}
-            whileHover={{ x: "100%" }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-          />
-        </motion.button></Link>
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                />
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </div>
     </section>
   );
 };
-
-

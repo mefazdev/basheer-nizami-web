@@ -1,15 +1,33 @@
 // components/news/NewsTicker.tsx
 "use client";
 
+import { useNewsTickersData } from "@/hooks";
 import { motion } from "framer-motion";
 
-interface NewsTickerProps {
-  items: string[];
-}
+type NewsTickers = {
+  id: string;
+  text: string;
+  published: boolean;
+  sort_order: number;
+  starts_at: string | null;
+  ends_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+ interface   NewsTickerProps{
 
-export const NewsTicker: React.FC<NewsTickerProps> = ({ items }) => {
-  const duplicatedItems = [...items, ...items];
+tickersItems?:NewsTickers[]
 
+ }
+export const NewsTicker:React.FC<NewsTickerProps> =  ({tickersItems})  => {
+  
+  // const { data,   } = useNewsTickersData({
+  //   page: 1,
+  //   limit: 10, // fewer items on homepage
+  //   status: "active", // only show published/active tickers
+  // });
+  // const texts = data?.data
+  // const duplicatedItems = [...data, ...data];
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -37,15 +55,15 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ items }) => {
               ease: "linear",
             }}
           >
-            {duplicatedItems.map((item, index) => (
+            {tickersItems?.map((item) => (
               <span
-                key={index}
+                key={item.id}
                 className="inline-block px-8 text-sm md:text-base font-medium"
               >
-                {item}
-                {index < duplicatedItems.length - 1 && (
+                 {item.text}
+              {/*  {index < duplicatedItems.length - 1 && (
                   <span className="mx-6 text-white/60">•</span>
-                )}
+                )} */}
               </span>
             ))}
           </motion.div>

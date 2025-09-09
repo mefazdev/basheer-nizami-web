@@ -1,6 +1,7 @@
 // components/media/FeaturedVideo.tsx
 "use client";
 
+import { formatDuration } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Play,  Clock } from "lucide-react";
 import Image from "next/image";
@@ -13,9 +14,12 @@ interface VideoItem {
   category: string;
   date: string;
   venue?: string;
-  duration: string;
+  duration: number;
   views?: number;
   tags: string[];
+    featured?: boolean;
+    
+
 }
 
 interface FeaturedVideoProps {
@@ -27,7 +31,7 @@ export const FeaturedVideo: React.FC<FeaturedVideoProps> = ({
   video,
   onPlay,
 }) => {
-  //   const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
+    const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
 
   return (
     <motion.div
@@ -43,7 +47,7 @@ export const FeaturedVideo: React.FC<FeaturedVideoProps> = ({
           <div className="relative group cursor-pointer" onClick={onPlay}>
             <div className="relative aspect-video bg-gray-800 overflow-hidden">
               <Image fill
-                src={"/images/6.jpeg"}
+                src={thumbnailUrl}
                 alt={video.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
@@ -69,7 +73,7 @@ export const FeaturedVideo: React.FC<FeaturedVideoProps> = ({
               {/* Duration Badge */}
               <div className="absolute bottom-6 right-6 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm font-medium flex items-center">
                 <Clock className="w-4 h-4 mr-1" />
-                {video.duration}
+                {formatDuration(video.duration)}
               </div>
             </div>
           </div>

@@ -4,12 +4,21 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { NewsTicker } from "../NewsTicker";
 // import { NewsTicker } from '../NewsTicker';
-
+type NewsTickers={
+  id: string;
+  text: string;
+    published: boolean;
+    sort_order: number;
+    starts_at: string | null;
+    ends_at: string | null;
+    created_at: string;
+    updated_at:string
+ }
 interface QuoteSlideProps {
-  quote: string;
+quote: string;
 description: string;
-  backgroundImage: string;
-  tickerItems: string[];
+backgroundImage: string;
+tickerItems?: NewsTickers[];
 }
 
 export const QuoteSlide: React.FC<QuoteSlideProps> = ({
@@ -89,7 +98,7 @@ description,
         </motion.div> */}
       </div>
       <div className="absolute bottom-0 w-full ">
-        <NewsTicker items={tickerItems} />
+        <NewsTicker  data= {tickerItems} />
       </div>
     </div>
   );

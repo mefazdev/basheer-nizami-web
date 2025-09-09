@@ -183,18 +183,18 @@ export const VideoModal: React.FC<VideoModalProps> = ({
                   
                   {/* Metadata */}
                   <div className="space-y-3">
-                    <div className="flex items-center text-gray-400">
+                    {/* <div className="flex items-center text-gray-400">
                       <Calendar className="w-4 h-4 mr-3" />
                       <span>{new Date(video.uploadDate).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'
                       })}</span>
-                    </div>
+                    </div> */}
                     
                     <div className="flex items-center text-gray-400">
                       <Eye className="w-4 h-4 mr-3" />
-                      <span>{video.views.toLocaleString()} views</span>
+                      {/* <span>{video.views.toLocaleString()} views</span> */}
                     </div>
                     
                     <div className="flex items-center text-gray-400">

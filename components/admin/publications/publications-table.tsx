@@ -64,7 +64,7 @@ export function PublicationsTable({
 }: PublicationsTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [editingPublication, setEditingPublication] =
     useState<PublicationWithCategory | null>(null);

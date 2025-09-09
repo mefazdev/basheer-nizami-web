@@ -1,6 +1,7 @@
 // components/publications/FeaturedBook.tsx
 "use client";
 
+import { StorageUploader } from "@/lib/storage/upload";
 import { motion } from "framer-motion";
 import {  Calendar, BookOpen  } from "lucide-react";
 import Image from "next/image";
@@ -28,6 +29,7 @@ interface Book {
     google?: string;
   };
   tags: string[];
+  cover_path?:string| null
 }
 
 interface FeaturedBookProps {
@@ -35,6 +37,15 @@ interface FeaturedBookProps {
 }
 
 export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
+  const storageUploader = new StorageUploader();
+  
+  const getCoverUrl = (publication:Book) => {
+        // console.log('publication.cover_path',publication.cover_path)
+        return publication?.cover_path
+          ? storageUploader.getFileUrl("publications", publication.cover_path)
+          : null;
+      };
+   const coverUrl = getCoverUrl(book)
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -53,12 +64,12 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
               className="relative group w-full"
             >
               <div className="relative c w-full  h-[400px] lg:w-80 lg:h-96 rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={book.coverImage}
+               {coverUrl &&  <Image
+                  src={coverUrl}
                   alt={book.title}
                   className="w-full h-full object-cover"
                   fill
-                />
+                />}
                 {/* Shine Effect */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -skew-x-12" />
               </div>
@@ -94,17 +105,17 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
             )} */}
 
             <h3 className="text-2xl mt-6 lg:mt-0 lg:text-4xl font-bold text-gray-900 mb-2 leading-tight">
-              {book.title}
+              {book?.title}
             </h3>
 
-            {book.subtitle && (
+            {book?.subtitle && (
               <p className="text-lg lg:text-xl text-gray-600 mb-6 font-medium">
-                {book.subtitle}
+                {book?.subtitle}
               </p>
             )}
 
             <p className="lg:text-lg text-gray-700 leading-relaxed mb-8">
-              {book.description}
+              {book?.description}
             </p>
 
             {/* Book Info */}
@@ -112,12 +123,12 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
               <div className="flex items-center text-gray-600">
                 <Calendar className="w-4 h-4 mr-2" />
                 <span className="text-sm">
-                  Published: {new Date(book.publicationDate).getFullYear()}
+                  Published: {new Date(book?.publicationDate).getFullYear()}
                 </span>
               </div>
               <div className="flex items-center text-gray-600">
                 <BookOpen className="w-4 h-4 mr-2" />
-                <span className="text-sm">{book.pages} pages</span>
+                <span className="text-sm">{book?.pages} pages</span>
               </div>
             </div>
 
@@ -125,7 +136,7 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
             <div className="mb-8">
               <p className="text-gray-600 text-sm mb-1">
                 <span className="font-semibold">Publisher:</span>{" "}
-                {book.publisher}
+                {book?.publisher}
               </p>
               {/* <p className="text-gray-600 text-sm">
                 <span className="font-semibold">ISBN:</span> {book.isbn}
@@ -133,7 +144,7 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
             </div>
 
             {/* Reviews */}
-            {book.reviews && book.reviews.length > 0 && (
+            {book?.reviews && book?.reviews?.length > 0 && (
               <div className="mb-8">
                 <div className="bg-gray-50 rounded-2xl p-3 lg:p-6">
                   <div className="flex items-center mb-3">
@@ -152,11 +163,11 @@ export const FeaturedBook: React.FC<FeaturedBookProps> = ({ book }) => {
                       </div>
                     )} */}
                     <span className="font-semibold text-gray-900">
-                      {book.reviews[0].source}
+                      {book?.reviews[0].source}
                     </span>
                   </div>
                   <p className="text-gray-700 italic">
-                    &quot;{book.reviews[0].excerpt}&quot;
+                    &quot;{book?.reviews[0].excerpt}&quot;
                   </p>
                 </div>
               </div>

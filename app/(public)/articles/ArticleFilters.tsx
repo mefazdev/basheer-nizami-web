@@ -1,7 +1,7 @@
 // components/articles/ArticleFilters.tsx
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface Category {
   id: string;
@@ -18,7 +18,7 @@ interface ArticleFiltersProps {
 export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
   categories,
   selectedCategory,
-  onCategoryChange
+  onCategoryChange,
 }) => {
   return (
     <motion.div

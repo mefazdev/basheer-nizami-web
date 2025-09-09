@@ -2,27 +2,15 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { SearchBar } from './SearchBar';
 import { ArticleFilters } from './ArticleFilters';
 import { FeaturedArticle } from './FeaturedArticle';
 import { ArticleGrid } from './ArticleGrid';
+import { useArticles, useArticleSearch, useFeaturedArticles } from '@/hooks/sanity/useArticles';
  
 
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  author: string;
-  publishDate: string;
-  readTime: string;
-  category: 'leadership' | 'spirituality' | 'education' | 'personal-growth' | 'innovation';
-  tags: string[];
-  featured?: boolean;
-  image: string;
-  views: number;
-}
+ 
 
  const Articles: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,114 +23,48 @@ interface Article {
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+const { articles  } = useArticles()
+  const { featuredArticles } = useFeaturedArticles()
+  const { searchResults, searching } = useArticleSearch(searchTerm)
 
-  const articles: Article[] = [
-    {
-      id: 'leadership-prophet',
-      title: 'Leadership Lessons from the Prophet ﷺ',
-      excerpt: 'Timeless principles of leadership derived from the exemplary character and guidance of Prophet Muhammad ﷺ, applicable to modern educational institutions and organizational management.',
-      content: 'Detailed exploration of prophetic leadership principles...',
-      author: 'Educational Leader',
-      publishDate: '2024-03-15',
-      readTime: '8 min read',
-      category: 'leadership',
-      tags: ['Leadership', 'Prophet Muhammad', 'Management', 'Character'],
-      featured: true,
-      image: '/images/islam.jpg',
-      views: 15400
-    },
-    {
-      id: 'islamic-schools-ceos',
-      title: 'How Islamic Schools Can Raise Future CEOs & Scholars',
-      excerpt: 'A comprehensive framework for integrating entrepreneurial thinking and scholarly excellence within Islamic educational institutions to produce well-rounded leaders.',
-      content: 'Detailed analysis of educational methodologies...',
-      author: 'Educational Leader',
-      publishDate: '2024-03-10',
-      readTime: '12 min read',
-      category: 'education',
-      tags: ['Islamic Education', 'Leadership Development', 'Entrepreneurship', 'Scholarship'],
-      featured: true,
-      image: '/images/islam.jpg',
-      views: 12800
-    },
-    {
-      id: 'digital-age-spirituality',
-      title: 'Nurturing Spirituality in the Digital Age',
-      excerpt: 'Practical strategies for maintaining spiritual connection and growth while navigating the challenges and opportunities of modern technology.',
-      content: 'In-depth discussion on balancing technology and spirituality...',
-      author: 'Educational Leader',
-      publishDate: '2024-02-28',
-      readTime: '10 min read',
-      category: 'spirituality',
-      tags: ['Spirituality', 'Technology', 'Digital Balance', 'Modern Life'],
-          image: '/images/islam.jpg',
-      views: 9600
-    },
-    {
-      id: 'character-building',
-      title: 'Character Building in Modern Education: A Holistic Approach',
-      excerpt: 'Exploring comprehensive methods to integrate character development into contemporary educational curricula while maintaining academic excellence.',
-      content: 'Comprehensive guide to character education...',
-      author: 'Educational Leader',
-      publishDate: '2024-02-20',
-      readTime: '9 min read',
-      category: 'education',
-      tags: ['Character Building', 'Holistic Education', 'Values', 'Curriculum'],
-      image: '/images/islam.jpg',
-      views: 11200
-    },
-    {
-      id: 'youth-empowerment',
-      title: 'Empowering Youth: From Vision to Action',
-      excerpt: 'A strategic framework for empowering young people to become confident, capable, and purpose-driven leaders in their communities and beyond.',
-      content: 'Strategic guide to youth empowerment...',
-      author: 'Educational Leader',
-      publishDate: '2024-02-15',
-      readTime: '7 min read',
-      category: 'personal-growth',
-      tags: ['Youth Empowerment', 'Leadership', 'Vision', 'Action'],
-          image: '/images/islam.jpg',
-      views: 8900
-    },
-    {
-      id: 'ai-islamic-education',
-      title: 'Artificial Intelligence in Islamic Education: Opportunities and Ethics',
-      excerpt: 'Examining how AI technology can enhance Islamic educational practices while maintaining ethical standards and spiritual values.',
-      content: 'Comprehensive analysis of AI in Islamic education...',
-      author: 'Educational Leader',
-      publishDate: '2024-02-10',
-      readTime: '11 min read',
-      category: 'innovation',
-      tags: ['AI', 'Islamic Education', 'Technology', 'Ethics'],
-       image: '/images/islam.jpg',
-      views: 13500
-    },
-     
-    
-    
-  ];
+  
 
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+   const  displayArticles = useMemo(() => {
+    if (searchTerm.trim()) {
+      return searchResults
+    }
     
-    const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
+    if (selectedCategory === 'all') {
+      return articles
+    }
     
-    return matchesSearch && matchesCategory;
-  });
+    return articles.filter(article => article?.category === selectedCategory)
+  }, [articles, searchResults, searchTerm, selectedCategory])
 
-  const featuredArticles = articles.filter(article => article.featured);
-  const regularArticles = filteredArticles.filter(article => !article.featured);
-
-  const categories = [
-    { id: 'all', label: 'All Articles', count: articles.length },
-    { id: 'leadership', label: 'Leadership', count: articles.filter(a => a.category === 'leadership').length },
-    { id: 'spirituality', label: 'Spirituality', count: articles.filter(a => a.category === 'spirituality').length },
-    { id: 'education', label: 'Education', count: articles.filter(a => a.category === 'education').length },
-    { id: 'personal-growth', label: 'Personal Growth', count: articles.filter(a => a.category === 'personal-growth').length },
-    { id: 'innovation', label: 'Innovation', count: articles.filter(a => a.category === 'innovation').length }
-  ];
+   // Determine which articles to show
+   const categories = useMemo(() => {
+    const categoryMap = new Map()
+    categoryMap.set('all', { id: 'all', label: 'All Articles', count: articles.length })
+    
+    articles.forEach(article => {
+  
+      if (article?.category) {
+        const existing = categoryMap.get(article?.category)
+        if (existing) {
+          existing.count += 1
+        } else {
+          categoryMap.set(article.category, {
+            id: article.category,
+            label: article.category,
+            count: 1
+          })
+        }
+      }
+    })
+    
+    return Array.from(categoryMap.values())
+  }, [articles])
+ 
 
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
@@ -186,7 +108,7 @@ interface Article {
               </span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+            <h1 onClick={()=>console.log(categories)} className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
               Latest
               <span className="block bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent">
                 Articles
@@ -287,7 +209,7 @@ interface Article {
 
             <div className="grid lg:grid-cols-2 gap-12">
               {featuredArticles.map((article, index) => (
-                <FeaturedArticle key={article.id} article={article} index={index} />
+                <FeaturedArticle key={article?._id} article={article} index={index} />
               ))}
             </div>
           </div>
@@ -305,13 +227,21 @@ interface Article {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-2 lg:mb-4">
-              {searchTerm ? 'Search Results' : selectedCategory === 'all' ? 'All Articles' : categories.find(c => c.id === selectedCategory)?.label}
+              {searchTerm ? `Search Results` : selectedCategory === 'all' ? 'All Articles' : selectedCategory}
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-red-600 to-gray-800 mx-auto rounded-full mb-6" />
-            
           </motion.div>
 
-          <ArticleGrid articles={selectedCategory === 'all' && searchTerm === '' ? regularArticles : filteredArticles} />
+          {searching && <div className="text-center py-12">Searching...</div>}
+          
+          {!searching && displayArticles?.length > 0 && <ArticleGrid articles={displayArticles} />}
+          
+          {!searching && displayArticles.length === 0 && (
+            <div className="text-center py-20">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">No articles found</h3>
+              <p className="text-gray-600">Try adjusting your search or filters</p>
+            </div>
+          )}
         </div>
       </section>
     </div>
@@ -321,5 +251,4 @@ interface Article {
 
 export default Articles;
 
-
-
+ 

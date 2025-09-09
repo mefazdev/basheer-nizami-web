@@ -21,12 +21,12 @@ import { Button } from '../ui/Button'
 
 
 const navigation = [
-  {
-    name: 'Dashboard',
-    href: '/admin',
-    icon: Home,
-    description: 'Overview and analytics'
-  },
+  // {
+  //   name: 'Dashboard',
+  //   href: '/admin',
+  //   icon: Home,
+  //   description: 'Overview and analytics'
+  // },
   {
     name: 'News Tickers',
     href: '/admin/news-tickers',
@@ -35,13 +35,13 @@ const navigation = [
   },
   {
     name: 'Articles',
-    href: '/admin/articles',
+    href: 'https://basheer-nizami-web.sanity.studio/',
     icon: FileText,
     description: 'View articles from Sanity'
   },
   {
     name: 'Updates',
-    href: '/admin/updates',
+    href: 'https://basheer-nizami-web.sanity.studio/',
     icon: MessageSquare,
     description: 'View updates from Sanity'
   },

@@ -285,7 +285,7 @@ export default function ContactPage() {
                   <div className="space-y-6">
                     
                     {/* Inquiry Type & Urgency */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-3">
                           Type of Inquiry *
@@ -319,7 +319,7 @@ export default function ContactPage() {
                           <option value="urgent">Urgent (24 hours)</option>
                         </select>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Name and Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -457,7 +457,7 @@ export default function ContactPage() {
                             />
                             <div className={`flex items-center space-x-2 px-4 py-3 rounded-xl border-2 transition-all duration-300 ${
                               formData.preferredContact === method.value
-                                ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                ? 'border-gray-400 bg-blue-50 text-gray-700'
                                 : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-300'
                             }`}>
                               <method.icon className="w-4 h-4" />
@@ -473,7 +473,7 @@ export default function ContactPage() {
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 text-white font-bold py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-3"
+                        className="w-full bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-800 hover:to-black text-white font-bold py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-3"
                       >
                         {isSubmitting ? (
                           <>

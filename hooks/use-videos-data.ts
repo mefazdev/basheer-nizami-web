@@ -6,7 +6,7 @@ import type { VideoWithCategory, PaginatedResponse } from '@/lib/types'
 interface UseVideosDataParams {
   page: number
   search?: string
-  category_id?: string
+  category_id?: string | undefined
   published?: boolean
   limit?: number
 }

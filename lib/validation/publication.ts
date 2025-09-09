@@ -50,6 +50,7 @@ export const PublicationSchema = z.object({
     .or(z.literal(''))
     .transform(val => val === '' ? undefined : val),
   published: z.boolean().default(true),
+  featured:z.boolean().default(false),
 })
 
 export const PublicationUpdateSchema = PublicationSchema.partial()

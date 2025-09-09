@@ -70,30 +70,32 @@ export const Footer: React.FC<FooterProps> = ({
     {
       title: 'About',
       links: [
-        { label: 'Biography', href: '#about' },
-        { label: 'Vision & Mission', href: '#vision-mission' },
-        { label: 'Leadership Philosophy', href: '#philosophy' },
-        { label: 'Achievements', href: '#achievements' }
+        { label: 'Biography', href: '/about' },
+            { label: 'Ailt Global Academy', href: 'https://ailtacademy.com/' },
+         { label: 'Spiritual Footsteps', href: '/about' },
+            { label: 'Vision & Mission', href: '/about' },
+      
+    
       ]
     },
     {
       title: 'Work',
       links: [
-        { label: 'Projects & Initiatives', href: '#projects' },
-        { label: 'Media & Speeches', href: '#media' },
-        { label: 'Books & Publications', href: '#publications' },
-        { label: 'Gallery', href: '#gallery' }
+        { label: 'Initiatives', href: '/initiatives' },
+        { label: 'Media & Lutures', href: '/videos' },
+        { label: 'Books & Publications', href: '/publications' },
+        { label: 'Gallery', href: '/gallery' }
       ]
     },
-    {
-      title: 'Resources',
-      links: [
-        { label: 'Latest News', href: '#news' },
-        { label: 'Research Papers', href: '#research' },
-        { label: 'Speaking Topics', href: '#speaking' },
-        { label: 'Media Kit', href: '#media-kit' }
-      ]
-    },
+    // {
+    //   title: 'Resources',
+    //   links: [
+    //     { label: 'Latest News', href: '/updates' },
+    //     { label: 'Research Papers', href: '#research' },
+    //     { label: 'Speaking Topics', href: '#speaking' },
+    //     { label: 'Media Kit', href: '#media-kit' }
+    //   ]
+    // },
     // {
     //   title: 'Connect',
     //   links: [
@@ -112,12 +114,12 @@ export const Footer: React.FC<FooterProps> = ({
 //     { icon: Globe, label: '60+ Partnerships', description: 'Global Collaborations' }
 //   ];
 
-  const legalLinks = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Cookie Policy', href: '/cookies' },
-    { label: 'Accessibility', href: '/accessibility' }
-  ];
+  // const legalLinks = [
+  //   { label: 'Privacy Policy', href: '/privacy' },
+  //   // { label: 'Terms of Service', href: '/terms' },
+  //   { label: 'Cookie Policy', href: '/cookies' },
+  //   // { label: 'Accessibility', href: '/accessibility' }
+  // ];
 
   return (
     <footer className="relative bg-gradient-to-br from-slate-900 via-black to-slate-900 text-white overflow-hidden">
@@ -261,7 +263,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Navigation Links */}
             <div className="lg:col-span-5">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 ">
+              <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 ">
                 {navigationLinks.map((section, index) => (
                   <motion.div
                     key={section.title}
@@ -389,11 +391,19 @@ export const Footer: React.FC<FooterProps> = ({
                 viewport={{ once: true }}
                 className="text-gray-400 text-sm mb-4 md:mb-0"
               >
-                © {new Date().getFullYear()} Educational Leadership. All rights reserved.
+                © {new Date().getFullYear()} |  All rights reserved.
               </motion.div>
-
+<motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-gray-400 text-sm mb-4 md:mb-0"
+              >
+                Powered By <a href="https://www.instagram.com/cogentux_ai/">Cogentux</a>
+              </motion.div>
               {/* Legal Links */}
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -409,7 +419,7 @@ export const Footer: React.FC<FooterProps> = ({
                     {link.label}
                   </a>
                 ))}
-              </motion.div>
+              </motion.div> */}
             </div>
           </div>
         </div>

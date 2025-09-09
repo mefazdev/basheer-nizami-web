@@ -56,6 +56,7 @@ export interface Database {
           published: boolean
           created_at: string
           updated_at: string
+          featured:boolean
         }
         Insert: {
           id?: string
@@ -86,6 +87,7 @@ export interface Database {
           published?: boolean
           created_at?: string
           updated_at?: string
+           featured:boolean
         }
       }
       video_categories: {
@@ -190,6 +192,7 @@ export interface Database {
           published: boolean
           created_at: string
           updated_at: string
+                featured:boolean
         }
         Insert: {
           id?: string
@@ -205,6 +208,7 @@ export interface Database {
           published?: boolean
           created_at?: string
           updated_at?: string
+                featured:boolean
         }
         Update: {
           id?: string
@@ -220,6 +224,7 @@ export interface Database {
           published?: boolean
           created_at?: string
           updated_at?: string
+                featured:boolean
         }
       }
       publication_categories: {

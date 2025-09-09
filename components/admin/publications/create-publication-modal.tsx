@@ -1,6 +1,6 @@
 "use client";
 import { useState, useTransition, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload, X, FileText, Loader2 } from "lucide-react";
 import Image from "next/image";
@@ -36,6 +36,8 @@ import {
 import { usePublicationCategoriesData } from "@/hooks/use-publication-categories-data";
 import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/Progress";
+import { Label } from "@/components/ui/Label";
+import { Switch } from "@/components/ui/Switch";
 
 interface CreatePublicationModalProps {
   children: React.ReactNode;
@@ -68,6 +70,7 @@ export function CreatePublicationModal({
       buy_url: "",
       published: true,
       cover_path: "",
+      featured: false,
     },
   });
 
@@ -418,7 +421,22 @@ export function CreatePublicationModal({
               name="published"
               label="Publish immediately"
             /> */}
-
+<div className="flex items-center justify-between rounded-md border border-gray-700 p-3">
+              <Label htmlFor="featured" className="text-sm text-gray-300">
+                Mark as Featured
+              </Label>
+              <Controller
+                name="featured"
+                control={form.control}
+                render={({ field }) => (
+                  <Switch
+                    id="featured"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type="button"

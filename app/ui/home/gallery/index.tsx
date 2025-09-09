@@ -7,131 +7,39 @@ import { useRef, useState } from "react";
 import { MasonryGrid } from "./MasonryGrid";
 import { PhotoModal } from "./PhotoModal";
 import { GalleryPhoto } from "@/lib/types/gallery";
+import { usePhotosData } from "@/hooks/use-photos-data";
+import { mapPhotoToGalleryPhoto } from "@/lib/utils/photos";
+import Link from "next/link";
  
 
 interface GallerySectionProps {
   photos?: GalleryPhoto[];
+  page?: number;
+  search?: string;
+  categoryId?: string;
+   
 }
 
 export const GallerySection: React.FC<GallerySectionProps> = ({
-  photos = [
-    {
-      id: "ted-talk-stage",
-      title: "TED Education Conference Keynote",
-      description:
-        'Delivering keynote address on "The Future of Personalized Learning" to over 2,000 education leaders from around the world.',
-      imageUrl: "/images/8.jpeg",
-      thumbnailUrl: "/images/6.jpeg",
-      category: "speaking",
-      date: "2024-03-15",
-      location: "Vancouver, Canada",
-      event: "TED Education Conference 2024",
-      tags: ["TED", "Keynote", "AI", "Personalized Learning"],
-      featured: true,
-      aspectRatio: 1.5,
-    },
-    {
-      id: "unesco-meeting2",
-      title: " Global Education Summit",
-      description:
-        "Strategic discussion with UNESCO leadership on digital transformation initiatives in developing countries.",
-      imageUrl: "/images/7.jpeg",
-      category: "events",
-      date: "2024-03-10",
-      location: "Paris, France",
-      event: " Global Education Summit",
-      tags: ["UNESCO", "Global Education", "Policy"],
-      aspectRatio: 1.2,
-    },
-    {
-      id: "ted-talk-stage3",
-      title: "TED Education Conference Keynote",
-      description:
-        'Delivering keynote address on "The Future of Personalized Learning" to over 2,000 education leaders from around the world.',
-      imageUrl: "/images/8.jpeg",
-      thumbnailUrl: "/images/6.jpeg",
-      category: "speaking",
-      date: "2024-03-15",
-      location: "Vancouver, Canada",
-      event: "TED Education Conference 2024",
-      tags: ["TED", "Keynote", "AI", "Personalized Learning"],
-      featured: true,
-      aspectRatio: 1.5,
-    },
-    {
-      id: "unesco-meeting4",
-      title: " Global Education Summit",
-      description:
-        "Strategic discussion with UNESCO leadership on digital transformation initiatives in developing countries.",
-      imageUrl: "/images/7.jpeg",
-      category: "events",
-      date: "2024-03-10",
-      location: "Paris, France",
-      event: " Global Education Summit",
-      tags: ["UNESCO", "Global Education", "Policy"],
-      aspectRatio: 1.2,
-    },
-    {
-      id: "ted-talk-stage5",
-      title: "TED Education Conference Keynote",
-      description:
-        'Delivering keynote address on "The Future of Personalized Learning" to over 2,000 education leaders from around the world.',
-      imageUrl: "/images/8.jpeg",
-      thumbnailUrl: "/images/6.jpeg",
-      category: "speaking",
-      date: "2024-03-15",
-      location: "Vancouver, Canada",
-      event: "TED Education Conference 2024",
-      tags: ["TED", "Keynote", "AI", "Personalized Learning"],
-      featured: true,
-      aspectRatio: 1.5,
-    },
-    {
-      id: "unesco-meeting6",
-      title: " Global Education Summit",
-      description:
-        "Strategic discussion with UNESCO leadership on digital transformation initiatives in developing countries.",
-      imageUrl: "/images/7.jpeg",
-      category: "events",
-      date: "2024-03-10",
-      location: "Paris, France",
-      event: " Global Education Summit",
-      tags: ["UNESCO", "Global Education", "Policy"],
-      aspectRatio: 1.2,
-    },
-    {
-      id: "ted-talk-stage7",
-      title: "TED Education Conference Keynote",
-      description:
-        'Delivering keynote address on "The Future of Personalized Learning" to over 2,000 education leaders from around the world.',
-      imageUrl: "/images/8.jpeg",
-      thumbnailUrl: "/images/6.jpeg",
-      category: "speaking",
-      date: "2024-03-15",
-      location: "Vancouver, Canada",
-      event: "TED Education Conference 2024",
-      tags: ["TED", "Keynote", "AI", "Personalized Learning"],
-      featured: true,
-      aspectRatio: 1.5,
-    },
-    {
-      id: "unesco-meeting8",
-      title: " Global Education Summit",
-      description:
-        "Strategic discussion with UNESCO leadership on digital transformation initiatives in developing countries.",
-      imageUrl: "/images/7.jpeg",
-      category: "events",
-      date: "2024-03-10",
-      location: "Paris, France",
-      event: " Global Education Summit",
-      tags: ["UNESCO", "Global Education", "Policy"],
-      aspectRatio: 1.2,
-    },
-  ],
-}) => {
+ page,search,categoryId 
+}) => 
+  
+  {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+ const { data,  } = usePhotosData({
+    page:1,
+    search,
+    category_id: categoryId === "all" ? undefined : categoryId,
+    limit:8
+    // published: published === "all" ? undefined : published === "true",
+  });
+ 
+
+const photos: GalleryPhoto[] = (data?.data ?? []).map(mapPhotoToGalleryPhoto);
+  
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -141,10 +49,10 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-  const filteredPhotos =
-    selectedCategory === "all"
-      ? photos
-      : photos.filter((photo) => photo.category === selectedCategory);
+  // const filteredPhotos =
+  //   selectedCategory === "all"
+  //     ? photos
+  //     : photos.filter((photo) => photo.category === selectedCategory);
 
   const handlePhotoClick = (photo: GalleryPhoto) => {
     setSelectedPhoto(photo);
@@ -156,53 +64,53 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
     setSelectedPhoto(null);
   };
 
-  const categories = [
-    { id: "all", label: "All Photos", count: photos.length, icon: "📸" },
-    {
-      id: "speaking",
-      label: "Speaking Engagements",
-      count: photos.filter((p) => p.category === "speaking").length,
-      icon: "🎤",
-    },
-    {
-      id: "events",
-      label: "Events & Conferences",
-      count: photos.filter(
-        (p) => p.category === "events" || p.category === "conferences"
-      ).length,
-      icon: "🎯",
-    },
-    {
-      id: "awards",
-      label: "Awards & Recognition",
-      count: photos.filter((p) => p.category === "awards").length,
-      icon: "🏆",
-    },
-    {
-      id: "campus-visits",
-      label: "Campus Visits",
-      count: photos.filter((p) => p.category === "campus-visits").length,
-      icon: "🏛️",
-    },
-    {
-      id: "field-visits",
-      label: "Field Visits",
-      count: photos.filter((p) => p.category === "field-visits").length,
-      icon: "🌍",
-    },
-    {
-      id: "community",
-      label: "Community Outreach",
-      count: photos.filter((p) => p.category === "community").length,
-      icon: "🤝",
-    },
-    {
-      id: "meetings",
-      label: "Professional Meetings",
-      count: photos.filter((p) => p.category === "meetings").length,
-      icon: "👥",
-    },
-  ];
+  // const categories = [
+  //   { id: "all", label: "All Photos", count: photos.length, icon: "📸" },
+  //   {
+  //     id: "speaking",
+  //     label: "Speaking Engagements",
+  //     count: photos.filter((p) => p.category === "speaking").length,
+  //     icon: "🎤",
+  //   },
+  //   {
+  //     id: "events",
+  //     label: "Events & Conferences",
+  //     count: photos.filter(
+  //       (p) => p.category === "events" || p.category === "conferences"
+  //     ).length,
+  //     icon: "🎯",
+  //   },
+  //   {
+  //     id: "awards",
+  //     label: "Awards & Recognition",
+  //     count: photos.filter((p) => p.category === "awards").length,
+  //     icon: "🏆",
+  //   },
+  //   {
+  //     id: "campus-visits",
+  //     label: "Campus Visits",
+  //     count: photos.filter((p) => p.category === "campus-visits").length,
+  //     icon: "🏛️",
+  //   },
+  //   {
+  //     id: "field-visits",
+  //     label: "Field Visits",
+  //     count: photos.filter((p) => p.category === "field-visits").length,
+  //     icon: "🌍",
+  //   },
+  //   {
+  //     id: "community",
+  //     label: "Community Outreach",
+  //     count: photos.filter((p) => p.category === "community").length,
+  //     icon: "🤝",
+  //   },
+  //   {
+  //     id: "meetings",
+  //     label: "Professional Meetings",
+  //     count: photos.filter((p) => p.category === "meetings").length,
+  //     icon: "👥",
+  //   },
+  // ];
 
   return (
     <section
@@ -270,7 +178,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
           </motion.div> */}
 
           <h2
-            onClick={() => console.log(filteredPhotos, "hello")}
+ 
             className="text-3xl lg:text-5xl md:text-6xl font-bold text-gray-900 mb-2 lg:mb-6"
           >
             Photo
@@ -303,14 +211,14 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
         /> */}
 
         {/* Masonry Grid */}
-        <MasonryGrid photos={filteredPhotos} onPhotoClick={handlePhotoClick} />
+        <MasonryGrid photos={photos} onPhotoClick={handlePhotoClick} />
 
         {/* Photo Modal */}
         <PhotoModal
           photo={selectedPhoto}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          allPhotos={filteredPhotos}
+          allPhotos={photos}
           onNavigate={(photo) => setSelectedPhoto(photo)}
         />
 
@@ -323,13 +231,13 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
           className="text-center mt-20"
         >
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
+            <Link href='/gallery'><motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-2.5 lg:py-4 bg-gradient-to-r from-red-600 to-black text-white font-bold rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-xl"
             >
               View Full Archive
-            </motion.button>
+            </motion.button></Link>
             {/* <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

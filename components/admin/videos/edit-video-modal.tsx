@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
@@ -28,6 +28,8 @@ import { useVideoCategories } from "@/hooks/use-video-categories";
 import { fetchYouTubeMetadata } from "@/lib/youtube";
 
 import type { VideoWithCategory } from "@/lib/types";
+import { Label } from "@/components/ui/Label";
+import { Switch } from "@/components/ui/Switch";
 
 interface EditVideoModalProps {
   video: VideoWithCategory;
@@ -61,6 +63,7 @@ export function EditVideoModal({
       tags: video.tags,
       description: video.description || "",
       published: video.published,
+      featured: video.featured,
     },
   });
 
@@ -75,6 +78,7 @@ export function EditVideoModal({
       tags: video.tags,
       description: video.description || "",
       published: video.published,
+      featured: video.featured,  
     });
   }, [video, form]);
 
@@ -150,7 +154,7 @@ export function EditVideoModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto bg-blue-50">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto bg-slate-900 text-gray-200">
         <DialogHeader>
           <DialogTitle>Edit Video</DialogTitle>
           <DialogDescription>
@@ -276,7 +280,7 @@ export function EditVideoModal({
                   <input
                     type="text"
                     placeholder="Enter tags separated by commas"
-                    className="block bg-white  w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+                    className="block bg-   w-full rounded-md border border-gray-700 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const input = e.target.value;
                       const tags = input
@@ -297,12 +301,22 @@ export function EditVideoModal({
                 placeholder="Video description"
                 rows={3}
               />
-
-              {/* <CheckboxFormField
-                form={form}
-                name="published"
-                label="Published"
-              /> */}
+ <div className="flex items-center justify-between rounded-md border border-gray-700 p-3">
+  <Label   htmlFor="featured" className="text-sm text-gray-300">
+    Mark as Featured
+  </Label>
+  <Controller
+    name="featured"
+    control={form.control}
+    render={({ field }) => (
+      <Switch
+        id="featured"
+        checked={field.value}
+        onCheckedChange={field.onChange}
+      />
+    )}
+  />
+</div>
             </div>
 
             <DialogFooter>
@@ -311,12 +325,12 @@ export function EditVideoModal({
                 // variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={isPending}
-                className="border border-blue-500 text-blue-500"
+                className="border border-blue-600 text-blue-600"
               >
                 Cancel
               </Button>
               <Button
-                className="bg-blue-500 text-white"
+                className="bg-blue-600 text-white"
                 type="submit"
                 disabled={isPending}
               >

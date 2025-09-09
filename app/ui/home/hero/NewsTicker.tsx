@@ -1,14 +1,27 @@
 // components/NewsTicker.tsx
 "use client";
 
+ 
 import { motion } from "framer-motion";
-
+type NewsTickers={
+  id: string;
+  text: string;
+    published: boolean;
+    sort_order: number;
+    starts_at: string | null;
+    ends_at: string | null;
+    created_at: string;
+    updated_at:string
+ }
+ 
 interface NewsTickerProps {
-  items: string[];
+  data?: NewsTickers[];
 }
 
-export const NewsTicker: React.FC<NewsTickerProps> = ({ items }) => {
-  const duplicatedItems = [...items, ...items]; // Duplicate for seamless loop
+export const NewsTicker:React.FC<NewsTickerProps> = ({data} ) => {
+  // const duplicatedItems = [...items, ...items]; // Duplicate for seamless loop
+
+  
 
   return (
     <div className="relative bg-gradient-to-l from-red-600 to-black/50 text-white py-2 overflow-hidden">
@@ -31,15 +44,15 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ items }) => {
               ease: "linear",
             }}
           >
-            {duplicatedItems.map((item, index) => (
+            {data?.map((item, index) => (
               <span
                 key={index}
                 className="inline-block px-8 text-sm md:text-base font-medium"
               >
-                {item}
-                {index < duplicatedItems.length - 1 && (
+                {item.text}
+                {/* {index < duplicatedItems.length - 1 && (
                   <span className="mx-4 text-red-300">•</span>
-                )}
+                )} */}
               </span>
             ))}
           </motion.div>

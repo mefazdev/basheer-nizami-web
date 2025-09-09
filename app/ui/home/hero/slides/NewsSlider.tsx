@@ -4,14 +4,27 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { NewsTicker } from "../NewsTicker";
+import Link from "next/link";
  
+
+type NewsTickers={
+  id: string;
+  text: string;
+    published: boolean;
+    sort_order: number;
+    starts_at: string | null;
+    ends_at: string | null;
+    created_at: string;
+    updated_at:string
+ }
 
 interface NewsSlideProps {
   title: string;
   summary: string;
-  image: string;
+  image: string ;
   date: string;
-  tickerItems: string[];
+  slug: string;
+  tickerItems?: NewsTickers[];
 }
 
 export const NewsSlide: React.FC<NewsSlideProps> = ({
@@ -20,6 +33,7 @@ export const NewsSlide: React.FC<NewsSlideProps> = ({
   image,
   date,
   tickerItems,
+  slug
 }) => {
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -47,12 +61,12 @@ export const NewsSlide: React.FC<NewsSlideProps> = ({
                 className="relative"
               >
                 <div className="relative aspect-[5/3] md:aspect-[6/3] lg:aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
+                 {image &&  <Image
                     src={image}
                     alt="News image"
                     fill
                     className="object-cover"
-                  />
+                  />}
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30" />
                 </div>
               </motion.div>
@@ -102,7 +116,7 @@ export const NewsSlide: React.FC<NewsSlideProps> = ({
                   {/* <span>Breaking News</span> */}
                 </motion.div>
 
-                <motion.button
+               <Link href={`/updates/${slug}`}> <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.8 }}
@@ -111,14 +125,14 @@ export const NewsSlide: React.FC<NewsSlideProps> = ({
                   className="inline-flex items-center border border-gray-500  md:border-none  md:text-black px-4 md:px-8 py-2 md:py-3 md:bg-white hover:bg-white/60 text-gray-200  md:font-semibold rounded-lg transition-colors"
                 >
                   Read More
-                </motion.button>
+                </motion.button></Link>
               </motion.div>
             </div>
           </div>
         </div>
 
         {/* News Ticker */}
-        <NewsTicker items={tickerItems} />
+        <NewsTicker  data={tickerItems} />
       </div>
     </div>
   );
