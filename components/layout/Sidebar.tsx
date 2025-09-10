@@ -21,18 +21,13 @@ import { Button } from '../ui/Button'
 
 
 const navigation = [
-  // {
-  //   name: 'Dashboard',
-  //   href: '/admin',
-  //   icon: Home,
-  //   description: 'Overview and analytics'
-  // },
   {
-    name: 'News Tickers',
-    href: '/admin/news-tickers',
-    icon: Newspaper,
-    description: 'Manage news tickers'
+    name: 'Dashboard',
+    href: '/admin',
+    icon: Home,
+    description: 'Overview and analytics'
   },
+ 
   {
     name: 'Articles',
     href: 'https://basheer-nizami-web.sanity.studio/',
@@ -62,6 +57,12 @@ const navigation = [
     href: '/admin/publications',
     icon: BookOpen,
     description: 'Manage publications'
+  },
+   {
+    name: 'News Tickers',
+    href: '/admin/news-tickers',
+    icon: Newspaper,
+    description: 'Manage news tickers'
   },
   {
     name: 'Settings',
