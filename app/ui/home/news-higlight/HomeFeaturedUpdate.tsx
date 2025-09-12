@@ -4,6 +4,7 @@ import { UpdateItem } from "@/lib/types/updates";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HomeFeaturedUpdateProps {
   featuredUpdates?: UpdateItem[];
@@ -73,14 +74,14 @@ export const HomeFeaturedUpdate: React.FC<HomeFeaturedUpdateProps> = ({
 
             {/* Tags */}
 
-            <motion.button
+            <Link href={`updates/${data?.slug}`}><motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center text-gray-600 font-semibold hover:text-gray-700 transition-colors group"
             >
-              Read Article
+              Read More
               <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
-            </motion.button>
+            </motion.button></Link>
           </div>
         </div>
       </div>

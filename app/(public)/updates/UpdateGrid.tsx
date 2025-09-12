@@ -101,14 +101,16 @@ export const UpdatesGrid: React.FC<UpdatesGridProps> = ({ updates }) => {
                   </p>
 
                   {/* Read More Button */}
-                  <motion.button
+        
+                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="inline-flex items-center text-gray-600 font-semibold hover:text-gray-700 transition-colors group"
                   >
-                    Read Article
+                    Read More
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
                   </motion.button>
+               
                 </div>
               </div>
             </motion.article>

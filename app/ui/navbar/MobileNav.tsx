@@ -77,7 +77,7 @@ export default function MobileNavbar() {
                
               <div className=" h-11 w-34 relative rounded mt-1">
                 <Link passHref href="/">
-                  <Image src={"/images/name-4.png"} alt="" layout="fill" />
+                  <Image src={"/images/logo-5.png"} alt="" layout="fill" />
                 </Link>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function MobileNavbar() {
       </nav>
 
       {/* Overlay */}
-      <div className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all duration-300 ${
+      <div className={`fixed  overflow-scroll inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all duration-300 ${
         isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`} onClick={toggleMenu} />
 
@@ -146,7 +146,7 @@ export default function MobileNavbar() {
         </div>
 
         {/* Navigation Links */}
-        <div className="px-6 py-6 flex-1 overflow-y-auto">
+        <div className="px-6 py-6 flex-1  overflow-scroll max-h-[70vh] z-[1000]">
           <div className="space-y-2">
             {navigationLinks.map((link, index) => {
               const IconComponent = link.icon;

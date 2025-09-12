@@ -26,7 +26,7 @@ export const Portrait: React.FC<PortraitProps> = () => {
         <motion.div
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
-          className="relative aspect-[  rounded-2xl overflow-hidden shadow-2xl bg-white p-4"
+          className="relative   rounded-2xl overflow-hidden shadow-2xl bg-white p-4"
         >
           <div className="relative w-full h-full rounded-xl overflow-hidden">
             {/* <Image
@@ -36,21 +36,21 @@ export const Portrait: React.FC<PortraitProps> = () => {
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
             /> */}
-            <div className="relative aspect-video   rounded-xl overflow-hidden shadow-2xl">
-              <div className="w-full max- mx-auto px-">
+            <div className="relative h-[650px]  rounded-xl overflow-hidden shadow-2xl">
+              <div className="w-fullmx-auto h-[1600px]">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl"
+                  className="relative h-[650px] rounded-2xl overflow-hidden shadow-2xl"
                   whileHover={{ scale: 1.02 }}
                 >
                   <ReactPlayer
                     // src={"/videos/nizami.mp4"}
                     src="https://res.cloudinary.com/dc52qrj3q/video/upload/v1754055772/nizami_lx6anz.mp4"
-                    width="100%"
-                    height="100%"
-                    light={"/images/3.jpeg"}
+                    // width="100%"
+                    // height="500"
+                    light={"/images/6.jpeg"}
                     playing={isPlaying}
                     autoPlay
                     // loop

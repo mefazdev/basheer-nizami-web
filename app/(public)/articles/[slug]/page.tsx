@@ -41,7 +41,7 @@ const ArticleDetailsPage: React.FC = () => {
 
 
   const clickme = ()=>{
-  console.log(relatedArticles)
+  console.log(relatedArticles )
 }
   
  
@@ -313,11 +313,11 @@ const ArticleDetailsPage: React.FC = () => {
                   viewport={{ once: true }}
                   className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
                 >
-                  {relatedArticle.mainImage && (
+                  {relatedArticle?.image && (
                     <div className="relative aspect-[16/10]">
                       <Image
                         fill
-                        src={relatedArticle.mainImage.asset?.url || urlFor(relatedArticle.mainImage).width(400).height(250).url()}
+                        src={relatedArticle.image || urlFor(relatedArticle?.image).width(400).height(250).url()}
                         alt={relatedArticle.title}
                         className="object-cover"
                       />
@@ -326,15 +326,17 @@ const ArticleDetailsPage: React.FC = () => {
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
                       {relatedArticle.title}
+                     
                     </h3>
                     {relatedArticle.excerpt && (
                       <p className="text-gray-600 mb-4 line-clamp-3">
                         {relatedArticle.excerpt}
+                     
                       </p>
                     )}
                     <Link
                       href={`/articles/${relatedArticle?.slug }`}
-                      className="text-red-600 hover:text-red-700 font-semibold"
+                      className="text-gray-700 hover:text-gray-700 font-semibold"
                     >
                       Read More →
                     </Link>

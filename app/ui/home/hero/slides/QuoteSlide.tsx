@@ -39,7 +39,7 @@ description,
           priority
         />
 
-        <div className="absolute inset-0 bg-black/60 bg-opacity-70  " />
+        <div className="absolute inset-0 bg-black/50 bg-opacity-70  " />
       </div>
 
       {/* Quote Content */}

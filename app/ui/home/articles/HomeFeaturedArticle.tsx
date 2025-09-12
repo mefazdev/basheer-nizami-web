@@ -5,6 +5,7 @@ import { useFeaturedArticles } from "@/hooks/sanity/useArticles";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
  
 //  kjdnjkdnjkandf
@@ -90,14 +91,14 @@ export const HomeFeaturedArticle =  ( ) => {
               ))}
             </div>
 
-             <motion.button
+            <Link href={`articles/${data?.slug}`}> <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center text-gray-600 font-semibold hover:text-gray-700 transition-colors group"
                 >
                   Read Article
                   <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
-                </motion.button>
+                </motion.button></Link>
           </div>
         </div>
       </div>

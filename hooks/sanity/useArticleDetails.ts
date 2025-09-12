@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getArticleBySlug } from "@/lib/sanity/api";
 import { Article } from "@/lib/types/article"; 
 import { sanityClient } from "@/lib/sanity/client";
+import { transformSanityArticle } from "@/lib/utils/sanity";
 
 export function useArticleDetail(slug: string) {
   const [article, setArticle] = useState<Article | null>(null); 
@@ -33,6 +34,12 @@ export function useArticleDetail(slug: string) {
                   _id,
                   title,
                   slug,
+                  excerpt,
+ mainImage{
+      asset->{url},
+      alt
+    },
+
                   publishedAt,
                   tags,
                   status
@@ -43,7 +50,8 @@ export function useArticleDetail(slug: string) {
                 })
                 
                 // console.log('Related updates:', relatedData)
-                setRelatedArticles(relatedData || [])
+                const  transformedData =  relatedData?.map(transformSanityArticle)
+                setRelatedArticles(transformedData || [])
               } catch (relatedError) {
                 console.warn('Failed to fetch related updates:', relatedError)
               }
