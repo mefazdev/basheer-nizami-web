@@ -62,7 +62,7 @@ export const ArticleGrid: React.FC<ArticleGridProps> = ({ articles }) => {
                   {/* Category Badge */}
                   <div className="absolute top-4 left-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold border `}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-red-600 to-black text-gray-200  `}
                     >
                       {article?.category}
                     </span>

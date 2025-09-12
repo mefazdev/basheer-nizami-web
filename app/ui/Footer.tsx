@@ -16,6 +16,7 @@ import {
   Globe,
   ArrowUp
 } from 'lucide-react';
+import Link from 'next/link';
 
 interface FooterProps {
   contactInfo?: {
@@ -344,7 +345,12 @@ export const Footer: React.FC<FooterProps> = ({
                         </>
                       )}
                     </motion.button>
+
+           
+
                   </form>
+
+                  <Link href='/admin'><button className='border border-gray-600  mt-6 rounded-xl w-full p-1 cursor-pointer'>ADMIN</button></Link>
                 </div>
               )}
 

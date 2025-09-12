@@ -94,7 +94,7 @@ export function LoginForm() {
         // const userRole = authData.user.user_metadata?.role || authData.user.app_metadata?.role
        const userRole = authData.user.app_metadata.role
        console.log(authData.user.app_metadata.role)
-       console.log(userRole)
+       console.log(userRole,authData)
         if (userRole !== 'admin') {
           // alert('hiii')
           // Sign out the user if they don't have admin access
