@@ -30,12 +30,12 @@ description,
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* Background Image */}
-      <div className="absolute inset-0 ">
+      <div className="absolute inset-0   bg-black  ">
         <Image
           src={backgroundImage}
           alt="Leader portrait"
           fill
-          className="object-cover  "
+          className="object-cover cover "
           priority
         />
 

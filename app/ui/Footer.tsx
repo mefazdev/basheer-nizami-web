@@ -35,8 +35,8 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({
   contactInfo = {
-    email: 'contact@example.com',
-    phone: '+1 (555) 123-4567',
+    email: 'drbasheernizami@gmail.com',
+    phone: '+91 9913 848333',
     address: 'India'
   },
   socialLinks = {

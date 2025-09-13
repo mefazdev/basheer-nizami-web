@@ -38,7 +38,7 @@ export function CreateCategoryModal({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
       name: "",
-      slug: "",
+      // slug: "",
     },
   });
 

@@ -140,7 +140,7 @@ export const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }
         >
           <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 h-full">
             {/* Photo Image */}
-            <div className="relative overflow-hidden h-[250px]">
+            <div className="relative overflow-hidden h-[250px] w-full">
              {photoUrl &&  <Image fill
                 src={photoUrl}
                 alt={photo.title}
@@ -158,6 +158,7 @@ export const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }
  
                     Featured
                   </span>
+  
                 </div>
               )}
               
@@ -191,7 +192,7 @@ export const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }
             {/* Photo Details */}
             <div className="p-4">
               <h4 className="font-bold text-gray-900 mb-2 group-hover:text-gray-600 transition-colors line-clamp-2">
-                {photo.title}
+                {photo.title}                
               </h4>
               
               {photo.event && (
