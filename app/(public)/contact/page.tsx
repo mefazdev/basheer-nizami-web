@@ -185,7 +185,7 @@ export default function ContactPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 mb-1">Email Address</h3>
-                        <p className="text-gray-700 font-medium">dr.education@university.edu</p>
+                        <p className="text-gray-700 font-medium">drbasheernizami@gmail.com</p>
                         {/* <p className="text-sm text-gray-500 mt-1">Response within 24 hours • Preferred method</p> */}
                       </div>
                       {/* <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" /> */}
@@ -199,7 +199,7 @@ export default function ContactPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                        <p className="text-gray-700 font-medium">+1 (555) 123-4567</p>
+                        <p className="text-gray-700 font-medium">+91 9913 848333</p>
                         {/* <p className="text-sm text-gray-500 mt-1">Office hours • Appointments preferred</p> */}
                       </div>
                       {/* <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" /> */}

@@ -14,7 +14,7 @@ export async function PATCH(
   request: NextRequest, 
   { params }: { params: Promise<{ id: string }> }
 ) {
-  return withAuth(request, async (userId) => {
+  // return withAuth(request, async (userId) => {
     try {
       const supabase = createClient()
          const {  id } = await  params
@@ -57,7 +57,7 @@ export async function PATCH(
         entity: 'photo_categories',
         entity_id:  id,
         action: 'UPDATE',
-        by_user: userId,
+        by_user: '',
         before: currentData,
         after: data,
       })
@@ -66,7 +66,7 @@ export async function PATCH(
     } catch (error) {
       return handleError(error)
     }
-  })
+  // })
 }
 
 export async function DELETE(

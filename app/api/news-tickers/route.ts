@@ -7,7 +7,7 @@ import type { NewsTicker } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 
 export async function GET(request: NextRequest) {
-  return withAuth(request, async () => {
+  // return withAuth(request, async () => {
     try {
       const { searchParams } = new URL(request.url);
       const page = parseInt(searchParams.get("page") || "1");
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     } catch (error) {
       return handleError(error);
     }
-  });
+  // });
 }
 
 export async function POST(request: NextRequest) {

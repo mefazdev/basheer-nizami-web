@@ -7,7 +7,7 @@ import { generateSlug } from '@/lib/utils'
 import type { PhotoCategory } from '@/lib/types'
 
 export async function GET(request: NextRequest) {
-  return withAuth(request, async () => {
+  // return withAuth(request, async () => {
     try {
       const supabase = await createClient()
          
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       console.log(error)
       return handleError(error)
     }
-  })
+  // })
 }
 
 export async function POST(request: NextRequest) {

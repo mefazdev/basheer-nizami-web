@@ -8,7 +8,7 @@ import type { PublicationCategory } from '@/lib/types'
 import { createClient } from '@/lib/supabase/client'
 
 export async function GET(request: NextRequest) {
-  return withAuth(request, async () => {
+  // return withAuth(request, async () => {
     try {
       const supabase = createClient()
       
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     } catch (error) {
       return handleError(error)
     }
-  })
+  // })
 }
 
 export async function POST(request: NextRequest) {
