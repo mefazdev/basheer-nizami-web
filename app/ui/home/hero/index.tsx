@@ -54,7 +54,7 @@ const HeroSection: React.FC<HeroCarouselProps> = ({
     text: "Lighting Minds. Lifting Futures.",
     description:
       "Discover the journey of Dr. Basheer Nizami — a visionary educator, spiritual mentor, and founder of AILT Global Academy.",
-    image: "/images/8.jpeg",
+    image: "/images/9.jpeg",
   },
    
   //   "Meeladunnabi celebrations announced",

@@ -24,7 +24,7 @@ export const NewsTicker:React.FC<NewsTickerProps> = ({data} ) => {
   
 
   return (
-    <div className="relative bg-gradient-to-l from-red-600 to-black/50 text-white py-2 overflow-hidden">
+    <div className="relative bg-gradient-to-l  min-h-9 from-red-600 to-black/50 text-white py-2 overflow-hidden">
       <div className="flex items-center">
         {/* Breaking News Label */}
         <div className="bg-red-700 hidden lg:block px-4 py-1 text-sm font-bold uppercase tracking-wider flex-shrink-0">

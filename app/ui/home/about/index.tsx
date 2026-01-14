@@ -62,7 +62,7 @@ export const About: React.FC<AboutSectionProps> = ({
         <div className="grid lg:grid-cols-2  gap-8 lg:gap-16 items-center ">
         <div className=" order-1 "> <Biography {...biography} /></div>
 
-             <div className=" order-first lg:order-2"> <Portrait {...portrait} /></div>  
+             <div className=" order-first lg:order-"> <Portrait {...portrait} /></div>  
         </div>
 
         {/* Timeline */}
