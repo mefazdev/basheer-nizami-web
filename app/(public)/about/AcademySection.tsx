@@ -58,7 +58,7 @@ export const AcademySection: React.FC = () => {
             <div className="relative">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200">
                 <Image
-                  src="/images/campus.jpg"
+                  src="/images/campus.jpeg"
                   alt="AILT Global Academy Campus"
                   className="w-full h-full object-cover rounded-3xl"
                   fill
